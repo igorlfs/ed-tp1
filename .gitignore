@@ -1,0 +1,10 @@
+# ignore build related folders
+obj/
+bin/
+# ignore editor's files
+.cache/
+compile_commands.json
+# ignore general folder
+asset/
+# ignore tracklist 
+TODO
