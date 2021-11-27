@@ -13,4 +13,5 @@ template <typename T> class Cell {
     Cell *next;
 
     friend class LinkedList;
+    friend class LinkedQueue;
 };
