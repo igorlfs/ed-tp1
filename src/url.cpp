@@ -4,7 +4,7 @@
 typedef unsigned long delim;
 
 // @brief constrói uma URL com base em uma string
-// @param string s
+// @param string s (pré condição: s está correta)
 // @return URL construída
 URL::URL(string &s) {
     if (s[s.size() - 1] == '/') s.pop_back();

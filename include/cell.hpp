@@ -2,13 +2,15 @@
 
 #include "url.hpp"
 
-class Celula {
+template <typename T> class Cell {
   public:
     // @brief inicia célula
     // @return célula
-    Celula() { this->prox = nullptr; };
+    Cell() { this->prox = nullptr; };
 
   private:
-    URL url;
-    Celula *prox;
+    T item;
+    Cell *next;
+
+    friend class LinkedList;
 };
