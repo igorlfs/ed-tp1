@@ -53,13 +53,6 @@ LinkedList *LinkedQueue::getUrlsFromHost(const Host &h) const {
     // Não deve chegar aqui
     return this->first->item.getUrls();
 }
-void LinkedQueue::insertUrlInSite(const Host &h, const URL &u) {
-    Cell<Site> *p = this->first->next;
-    while (p != nullptr) {
-        if (p->item.getHost() == h) p->item.getUrls()->insertMid(u);
-        p = p->next;
-    }
-}
 
 void LinkedQueue::printHosts() const {
     Cell<Site> *p = this->first->next;

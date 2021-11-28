@@ -25,7 +25,7 @@ void Escalonador::insertUrl(const URL &u) {
     string urlNoFrag = u.getUrlNoFrag();
     string urlHost = u.getHost();
     if (this->siteQueue.isHostInQueue(urlHost)) {
-        this->siteQueue.insertUrlInSite(urlHost, urlNoFrag);
+        this->siteQueue.getUrlsFromHost(urlHost)->insertMid(urlNoFrag);
     } else {
         this->siteQueue.line(urlNoFrag);
     }

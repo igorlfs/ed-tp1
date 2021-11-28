@@ -13,7 +13,6 @@ class LinkedQueue : public List {
 
     bool isHostInQueue(const Host &h) const;
     LinkedList *getUrlsFromHost(const Host &h) const;
-    void insertUrlInSite(const Host &h, const URL &u);
 
     void printHosts() const;
 
