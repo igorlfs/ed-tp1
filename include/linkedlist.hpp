@@ -20,6 +20,7 @@ class LinkedList : public List {
     URL removePos(const int &pos);
 
     int searchDepth(const int &dep) const;
+    bool containsURL(const string &str) const;
 
     void print() const;
 

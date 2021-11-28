@@ -48,7 +48,10 @@ void LinkedList::insertBeg(const URL &u) {
 void LinkedList::insertMid(const URL &u) {
     int depth = u.getDepth();
     int pos = searchDepth(depth);
-    (pos == INVALID_POS) ? insertEnd(u) : insertPos(u, pos);
+    if (pos == INVALID_POS)
+        insertEnd(u);
+    else if (!containsURL(u.getUrl()))
+        insertPos(u, pos);
 }
 
 void LinkedList::insertEnd(const URL &u) {
@@ -131,6 +134,16 @@ int LinkedList::searchDepth(const int &dep) const {
         p = p->next;
     }
     return INVALID_POS;
+}
+
+bool LinkedList::containsURL(const string &str) const {
+    if (empty()) return false;
+    Cell<URL> *p = this->head->next;
+    while (p != nullptr) {
+        if (p->item.getUrl() == str) return true;
+        p = p->next;
+    }
+    return false;
 }
 
 void LinkedList::print() const {
