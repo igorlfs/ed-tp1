@@ -1,7 +1,5 @@
 #pragma once
 
-#include "cell.hpp"
-
 class List {
   public:
     List() { this->size = 0; }
