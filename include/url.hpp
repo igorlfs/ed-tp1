@@ -6,10 +6,15 @@ using std::string;
 
 class URL {
   public:
-    // @brief construtor padrão
-    // @return URL construída
-    URL() = default;
-    URL(string &s);
+    URL() {}
+    URL(string s);
+
+    string getProtocol() const { return this->protocol; }
+    string getHost() const { return this->host; }
+    int getDepth() const { return this->depth; }
+    string getUrl() const;
+    string getUrlNoFrag() const;
+
     void print() const;
 
   private:
@@ -18,4 +23,5 @@ class URL {
     string path;
     string query;
     string fragment;
+    unsigned depth;
 };

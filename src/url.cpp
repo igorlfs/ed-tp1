@@ -3,19 +3,30 @@
 
 typedef unsigned long delim;
 
+unsigned countCharStr(const std::string &str, const char c) {
+
+    unsigned n = 0;
+    for (char i : str)
+        if (c == i) n++;
+    return n;
+}
+
 // @brief constrói uma URL com base em uma string
 // @param string s (pré condição: s está correta)
 // @return URL construída
-URL::URL(string &s) {
+URL::URL(string s) {
     if (s[s.size() - 1] == '/') s.pop_back();
 
     delim prot = s.find("://");
     this->protocol = s.substr(0, prot);
 
-    // Encontre o primeiro ponto (e remova até ele).
-    // Assim, vamos exluir o 'www' (e afins)
-    delim dot = s.find('.');
-    s.erase(0, dot + 1);
+    // Encontre 'www.' e se existir remova até ele.
+    // Se não existir apenas exclua até o ://
+    delim dot = s.find("www.");
+    if (dot != string::npos)
+        s.erase(0, dot + 1);
+    else
+        s.erase(0, prot + 3);
 
     delim host = s.find('/');
     if (host != string::npos) {
@@ -38,8 +49,11 @@ URL::URL(string &s) {
                 this->fragment = s;
             }
         }
-    } else
+        this->depth = countCharStr(this->path, '/');
+    } else {
         this->host = s;
+        this->depth = 0;
+    }
 }
 
 // @brief imprime a URL na saída padrão
@@ -50,4 +64,21 @@ void URL::print() const {
     if (!this->query.empty()) std::cout << '?' << this->query;
     if (!this->fragment.empty()) std::cout << '#' << this->fragment;
     std::cout << '\n';
+}
+
+// @brief retorna url
+string URL::getUrl() const {
+    string s = protocol + "://" + host;
+    if (!this->path.empty()) s += '/' + this->path;
+    if (!this->query.empty()) s += '?' + this->query;
+    if (!this->fragment.empty()) s += '#' + this->fragment;
+    return s;
+}
+
+// @brief retorna url, mas sem o fragment
+string URL::getUrlNoFrag() const {
+    string s = protocol + "://" + host;
+    if (!this->path.empty()) s += '/' + this->path;
+    if (!this->query.empty()) s += '?' + this->query;
+    return s;
 }
