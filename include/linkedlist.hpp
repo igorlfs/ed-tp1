@@ -1,5 +1,6 @@
 #pragma once
 
+#include "cell.hpp"
 #include "list.hpp"
 #include "url.hpp"
 
@@ -12,19 +13,25 @@ class LinkedList : public List {
     void setItem(const URL &u, const int &pos);
 
     void insertBeg(const URL &u);
-    void insertEnd(const URL &u);
-    void insertPos(const URL &u, const int &pos);
+    void insertMid(const URL &u);
 
     URL removeBeg();
     URL removeEnd();
     URL removePos(const int &pos);
 
-    // TODO: search,print?
+    int searchDepth(const int &dep) const;
+
+    void print() const;
 
     void clear() override;
 
   private:
     Cell<URL> *head;
     Cell<URL> *tail;
+
+    static constexpr int INVALID_POS = -1;
+
     Cell<URL> *setPos(const int &pos, const bool &before) const;
+    void insertEnd(const URL &u);
+    void insertPos(const URL &u, const int &pos);
 };

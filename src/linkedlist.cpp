@@ -1,7 +1,7 @@
 #include "linkedlist.hpp"
 
 LinkedList::LinkedList() : List() {
-    this->head = nullptr;
+    this->head = new Cell<URL>;
     this->tail = this->head;
 }
 
@@ -43,6 +43,12 @@ void LinkedList::insertBeg(const URL &u) {
     this->size++;
 
     if (newCell->next == nullptr) this->tail = newCell;
+}
+
+void LinkedList::insertMid(const URL &u) {
+    int depth = u.getDepth();
+    int pos = searchDepth(depth);
+    (pos == INVALID_POS) ? insertEnd(u) : insertPos(u, pos);
 }
 
 void LinkedList::insertEnd(const URL &u) {
@@ -114,10 +120,33 @@ URL LinkedList::removePos(const int &pos) {
     return aux;
 }
 
+int LinkedList::searchDepth(const int &dep) const {
+    // Só chamo searchDepth se não for a primeira inserção
+    // Então o tamanho nunca é nulo
+    Cell<URL> *p = this->head->next;
+    int aux = 0;
+    while (p != nullptr) {
+        if (p->item.getDepth() > dep) return aux;
+        aux++;
+        p = p->next;
+    }
+    return INVALID_POS;
+}
+
+void LinkedList::print() const {
+    Cell<URL> *p = this->head->next;
+    while (p != nullptr) {
+        p->item.print();
+        p = p->next;
+    }
+}
+
 void LinkedList::clear() {
-    for (Cell<URL> *p = this->head->next; p != nullptr; p = p->next) {
+    Cell<URL> *p = this->head->next;
+    while (p != nullptr) {
         this->head->next = p->next;
         delete p;
+        p = this->head->next;
     }
     this->tail = this->head;
     this->size = 0;
