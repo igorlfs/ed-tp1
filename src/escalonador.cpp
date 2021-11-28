@@ -39,4 +39,8 @@ void Escalonador::listUrls(const Host &h) const {
 
 void Escalonador::listHosts() const { this->siteQueue.printHosts(); }
 
+void Escalonador::clearHost(const Host &h) {
+    this->siteQueue.getUrlsFromHost(h)->clear();
+}
+
 void Escalonador::clearAll() { this->siteQueue.clear(); }

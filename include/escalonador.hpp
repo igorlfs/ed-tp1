@@ -7,6 +7,7 @@ class Escalonador {
     void insertUrl(const URL &u);
     void listUrls(const Host &h) const;
     void listHosts() const;
+    void clearHost(const Host &h);
     void clearAll();
 
   private:
