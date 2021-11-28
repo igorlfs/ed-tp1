@@ -2,7 +2,7 @@
 
 LinkedQueue::LinkedQueue() : List() {
     // Lidar com exceção
-    this->first = new Cell<LinkedList>;
+    this->first = new Cell<Site>;
     this->last = this->first;
 }
 
@@ -11,21 +11,21 @@ LinkedQueue::~LinkedQueue() {
     delete this->first;
 }
 
-void LinkedQueue::line(const LinkedList &L) {
+void LinkedQueue::line(const URL &u) {
     // Lidar com exceção
-    Cell<LinkedList> *newCell = new Cell<LinkedList>;
-    newCell->item = L;
+    Cell<Site> *newCell  = new Cell<Site>;
+    newCell->item.setHost(u);
     this->last->next = newCell;
     this->last = newCell;
     this->size++;
 }
 
-LinkedList LinkedQueue::unline() {
+Site LinkedQueue::unline() {
     // Lidar com exceção
     // if (this->size == 0)
     // Lidar com exceção
-    Cell<LinkedList> *p = this->first;
-    LinkedList aux = this->first->item;
+    Cell<Site> *p = this->first;
+    Site aux = this->first->item;
 
     this->first = this->first->next;
     delete p;
@@ -34,9 +34,45 @@ LinkedList LinkedQueue::unline() {
     return aux;
 }
 
+bool LinkedQueue::isHostInQueue(const Host &h) const {
+    if (empty()) return false;
+    Cell<Site> *p = this->first->next;
+    while (p != nullptr) {
+        if (p->item.getHost() == h) return true;
+        p = p->next;
+    }
+    return false;
+}
+
+LinkedList *LinkedQueue::getUrlsFromHost(const Host &h) const {
+    Cell<Site> *p = this->first->next;
+    while (p != nullptr) {
+        if (p->item.getHost() == h) return p->item.getUrls();
+        p = p->next;
+    }
+    // Não deve chegar aqui
+    return this->first->item.getUrls();
+}
+void LinkedQueue::insertUrlInSite(const Host &h, const URL &u) {
+    Cell<Site> *p = this->first->next;
+    while (p != nullptr) {
+        if (p->item.getHost() == h) p->item.getUrls()->insertMid(u);
+        p = p->next;
+    }
+}
+
+void LinkedQueue::printHosts() const {
+    Cell<Site> *p = this->first->next;
+    while (p != nullptr) {
+        p->item.printHost();
+        p = p->next;
+    }
+}
+
 void LinkedQueue::clear() {
-    for (Cell<LinkedList> *p = this->first->next; p != nullptr;
+    for (Cell<Site> *p = this->first->next; p != nullptr;
          p = this->first->next) {
+        p->item.urls.clear();
         this->first->next = p->next;
         delete p;
     }
