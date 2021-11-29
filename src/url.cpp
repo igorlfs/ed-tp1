@@ -22,9 +22,9 @@ URL::URL(string s) {
 
     // Encontre 'www.' e se existir remova até ele.
     // Se não existir apenas exclua até o ://
-    delim dot = s.find("www.");
-    if (dot != string::npos)
-        s.erase(0, dot + 1);
+    delim www = s.find("www.");
+    if (www != string::npos)
+        s.erase(0, www + 4);
     else
         s.erase(0, prot + 3);
 
