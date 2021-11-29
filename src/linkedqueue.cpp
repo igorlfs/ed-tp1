@@ -2,41 +2,39 @@
 
 LinkedQueue::LinkedQueue() : List() {
     // Lidar com exceção
-    this->first = new Cell<Site>;
-    this->last = this->first;
+    this->front = new Cell<Site>;
+    this->rear = this->front;
 }
 
 LinkedQueue::~LinkedQueue() {
     clear();
-    delete this->first;
+    delete this->front;
 }
 
 void LinkedQueue::line(const URL &u) {
     // Lidar com exceção
-    Cell<Site> *newCell  = new Cell<Site>;
+    Cell<Site> *newCell = new Cell<Site>;
     newCell->item.setHost(u);
-    this->last->next = newCell;
-    this->last = newCell;
+    this->rear->next = newCell;
+    this->rear = newCell;
     this->size++;
 }
 
-Site LinkedQueue::unline() {
+void LinkedQueue::unline() {
     // Lidar com exceção
     // if (this->size == 0)
     // Lidar com exceção
-    Cell<Site> *p = this->first;
-    Site aux = this->first->item;
-
-    this->first = this->first->next;
+    Cell<Site> *p = this->front;
+    this->front = this->front->next;
+    if (this->front == nullptr) this->rear = this->front;
     delete p;
 
     this->size--;
-    return aux;
 }
 
 bool LinkedQueue::isHostInQueue(const Host &h) const {
     if (empty()) return false;
-    Cell<Site> *p = this->first->next;
+    Cell<Site> *p = this->front->next;
     while (p != nullptr) {
         if (p->item.getHost() == h) return true;
         p = p->next;
@@ -45,17 +43,17 @@ bool LinkedQueue::isHostInQueue(const Host &h) const {
 }
 
 LinkedList *LinkedQueue::getUrlsFromHost(const Host &h) const {
-    Cell<Site> *p = this->first->next;
+    Cell<Site> *p = this->front->next;
     while (p != nullptr) {
         if (p->item.getHost() == h) return p->item.getUrls();
         p = p->next;
     }
     // Não deve chegar aqui
-    return this->first->item.getUrls();
+    return this->front->item.getUrls();
 }
 
 void LinkedQueue::printHosts() const {
-    Cell<Site> *p = this->first->next;
+    Cell<Site> *p = this->front->next;
     while (p != nullptr) {
         p->item.printHost();
         p = p->next;
@@ -63,12 +61,11 @@ void LinkedQueue::printHosts() const {
 }
 
 void LinkedQueue::clear() {
-    for (Cell<Site> *p = this->first->next; p != nullptr;
-         p = this->first->next) {
-        p->item.urls.clear();
-        this->first->next = p->next;
+    for (Cell<Site> *p = this->front->next; p != nullptr;
+         p = this->front->next) {
+        this->front->next = p->next;
         delete p;
     }
     this->size = 0;
-    this->last = this->first;
+    this->rear = this->front;
 }

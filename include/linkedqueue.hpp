@@ -8,8 +8,10 @@ class LinkedQueue : public List {
     LinkedQueue();
     ~LinkedQueue();
 
+    Cell<Site> *getFront() { return this->front->next; }
+
     void line(const URL &u);
-    Site unline();
+    void unline();
 
     bool isHostInQueue(const Host &h) const;
     LinkedList *getUrlsFromHost(const Host &h) const;
@@ -19,8 +21,8 @@ class LinkedQueue : public List {
     void clear() override;
 
   private:
-    Cell<Site> *first;
-    Cell<Site> *last;
+    Cell<Site> *front;
+    Cell<Site> *rear;
 
     friend class Escalonador;
 };
