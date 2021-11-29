@@ -49,7 +49,7 @@ URL::URL(string s) {
                 this->fragment = s;
             }
         }
-        this->depth = countCharStr(this->path, '/');
+        this->depth = countCharStr(this->path, '/') + 1;
     } else {
         this->host = s;
         this->depth = 0;
