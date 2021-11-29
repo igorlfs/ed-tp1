@@ -52,6 +52,21 @@ LinkedList *LinkedQueue::getUrlsFromHost(const Host &h) const {
     return this->front->item.getUrls();
 }
 
+void LinkedQueue::printNUrls(const int &n) {
+    Cell<Site> *p = this->front->next;
+    int m = 0;
+    URL u;
+    while (m < n) {
+        LinkedList *q = p->item.getUrls();
+        int sizeL = q->getSize();
+        for (int i = 0; i < sizeL && m != n; ++i, ++m) {
+            u = q->removeEnd();
+            u.print();
+        }
+        p = p->next;
+    }
+}
+
 void LinkedQueue::printHosts() const {
     Cell<Site> *p = this->front->next;
     while (p != nullptr) {

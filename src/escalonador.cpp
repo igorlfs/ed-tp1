@@ -31,6 +31,8 @@ void Escalonador::insertUrl(const URL &u) {
     }
 }
 
+void Escalonador::escalonaN(const int &n) { this->siteQueue.printNUrls(n); }
+
 void Escalonador::escalonaTudo() {
     while (!this->siteQueue.empty()) {
         this->siteQueue.getFront()->item.printUrls();
