@@ -51,7 +51,7 @@ void LinkedList::insertMid(const URL &u) {
     if (pos == INVALID_POS)
         insertEnd(u);
     else if (!containsURL(u.getUrl()))
-        insertPos(u, pos);
+        insertPos(u, pos + 1);
 }
 
 void LinkedList::insertEnd(const URL &u) {
