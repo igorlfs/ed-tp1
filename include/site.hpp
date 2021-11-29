@@ -14,8 +14,8 @@ class Site {
 
     void setHost(const URL &u);
 
-    void printHost() const;
-    void printUrls() const;
+    void printHost(std::ostream &out) const;
+    void printUrls(std::ostream &out) const;
 
   private:
     Host host;

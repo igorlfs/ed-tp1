@@ -1,21 +1,23 @@
 #pragma once
 
 #include "linkedqueue.hpp"
+#include <fstream>
 
 class Escalonador {
   public:
+    Escalonador(const string &outFile) { this->outputFile.open(outFile); }
+    ~Escalonador() { this->outputFile.close(); }
     void insertUrl(const URL &u);
     void escalonaTudo();
     void escalonaN(const int &n);
     void escalonaHost(const Host &h, const int &n);
-    void listUrls(const Host &h) const;
-    void listHosts() const;
+    void listUrls(const Host &h);
+    void listHosts();
     void clearHost(const Host &h);
     void clearAll();
 
   private:
+    std::ofstream outputFile;
     LinkedQueue siteQueue;
     bool isUrlForbidden(const string &u);
-    const char *forbiddenMimes[6] = {".jpg", ".gif", ".mp3",
-                                     ".avi", ".doc", ".pdf"};
 };

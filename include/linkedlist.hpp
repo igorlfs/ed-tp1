@@ -22,7 +22,7 @@ class LinkedList : public List {
     int searchDepth(const int &dep) const;
     bool containsURL(const string &str) const;
 
-    void print() const;
+    void print(std::ostream &out) const;
 
     void clear() override;
 

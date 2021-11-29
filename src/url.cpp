@@ -56,14 +56,12 @@ URL::URL(string s) {
     }
 }
 
-// @brief imprime a URL na saída padrão
-// @return URL impressa na saída padrão
-void URL::print() const {
-    std::cout << this->protocol << "://" << this->host;
-    if (!this->path.empty()) std::cout << '/' << this->path;
-    if (!this->query.empty()) std::cout << '?' << this->query;
-    if (!this->fragment.empty()) std::cout << '#' << this->fragment;
-    std::cout << '\n';
+void URL::print(std::ostream &out) const {
+    out << this->protocol << "://" << this->host;
+    if (!this->path.empty()) out << '/' << this->path;
+    if (!this->query.empty()) out << '?' << this->query;
+    if (!this->fragment.empty()) out << '#' << this->fragment;
+    out << '\n';
 }
 
 // @brief retorna url

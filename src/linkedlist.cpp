@@ -146,10 +146,10 @@ bool LinkedList::containsURL(const string &str) const {
     return false;
 }
 
-void LinkedList::print() const {
+void LinkedList::print(std::ostream &out) const {
     Cell<URL> *p = this->head->next;
     while (p != nullptr) {
-        p->item.print();
+        p->item.print(out);
         p = p->next;
     }
 }

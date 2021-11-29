@@ -16,8 +16,8 @@ class LinkedQueue : public List {
     bool isHostInQueue(const Host &h) const;
     LinkedList *getUrlsFromHost(const Host &h) const;
 
-    void printNUrls(const int &n);
-    void printHosts() const;
+    void printNUrls(const int &n, std::ostream &out);
+    void printHosts(std::ostream &out) const;
 
     void clear() override;
 

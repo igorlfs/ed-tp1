@@ -52,7 +52,7 @@ LinkedList *LinkedQueue::getUrlsFromHost(const Host &h) const {
     return this->front->item.getUrls();
 }
 
-void LinkedQueue::printNUrls(const int &n) {
+void LinkedQueue::printNUrls(const int &n, std::ostream &out) {
     Cell<Site> *p = this->front->next;
     int m = 0;
     URL u;
@@ -61,16 +61,16 @@ void LinkedQueue::printNUrls(const int &n) {
         int sizeL = q->getSize();
         for (int i = 0; i < sizeL && m != n; ++i, ++m) {
             u = q->removeEnd();
-            u.print();
+            u.print(out);
         }
         p = p->next;
     }
 }
 
-void LinkedQueue::printHosts() const {
+void LinkedQueue::printHosts(std::ostream &out) const {
     Cell<Site> *p = this->front->next;
     while (p != nullptr) {
-        p->item.printHost();
+        p->item.printHost(out);
         p = p->next;
     }
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <ostream>
 #include <string>
 
 using std::string;
@@ -15,7 +16,7 @@ class URL {
     string getUrl() const;
     string getUrlNoFrag() const;
 
-    void print() const;
+    void print(std::ostream &out) const;
 
   private:
     string protocol;

@@ -1,5 +1,8 @@
 #include "escalonador.hpp"
 
+const char *forbiddenMimes[6] = {".jpg", ".gif", ".mp3",
+                                 ".avi", ".doc", ".pdf"};
+
 bool endsWith(const string &str, const string &end) {
     if (end.length() > str.length())
         return false;
@@ -31,11 +34,13 @@ void Escalonador::insertUrl(const URL &u) {
     }
 }
 
-void Escalonador::escalonaN(const int &n) { this->siteQueue.printNUrls(n); }
+void Escalonador::escalonaN(const int &n) {
+    this->siteQueue.printNUrls(n, this->outputFile);
+}
 
 void Escalonador::escalonaTudo() {
     while (!this->siteQueue.empty()) {
-        this->siteQueue.getFront()->item.printUrls();
+        this->siteQueue.getFront()->item.printUrls(this->outputFile);
         this->siteQueue.unline();
     }
 }
@@ -46,17 +51,17 @@ void Escalonador::escalonaHost(const Host &h, const int &n) {
     URL u;
     for (int i = 0; i < n; ++i) {
         u = p->removeBeg();
-        u.print();
+        u.print(this->outputFile);
     }
 }
 
 // Pré condição: h é um host da lista (se não for apenas retorno)
-void Escalonador::listUrls(const Host &h) const {
+void Escalonador::listUrls(const Host &h) {
     if (!this->siteQueue.isHostInQueue(h)) return;
-    this->siteQueue.getUrlsFromHost(h)->print();
+    this->siteQueue.getUrlsFromHost(h)->print(this->outputFile);
 }
 
-void Escalonador::listHosts() const { this->siteQueue.printHosts(); }
+void Escalonador::listHosts() { this->siteQueue.printHosts(this->outputFile); }
 
 void Escalonador::clearHost(const Host &h) {
     this->siteQueue.getUrlsFromHost(h)->clear();

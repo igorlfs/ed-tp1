@@ -1,5 +1,4 @@
 #include "site.hpp"
-#include <iostream>
 
 Site::Site(const URL &u) {
     this->host = u.getHost();
@@ -11,6 +10,6 @@ void Site::setHost(const URL &u) {
     this->urls.insertBeg(u);
 }
 
-void Site::printHost() const { std::cout << this->host << '\n'; }
+void Site::printHost(std::ostream &out) const { out << this->host << '\n'; }
 
-void Site::printUrls() const { this->urls.print(); }
+void Site::printUrls(std::ostream &out) const { this->urls.print(out); }
