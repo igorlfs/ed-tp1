@@ -16,7 +16,7 @@ Cell<URL> *LinkedList::setPos(const int &pos,
     // if (pos > this->size || pos <= 0)
 
     Cell<URL> *p = this->head;
-    for (int i = 0; i < pos; ++i)
+    for (int i = 1; i < pos; ++i)
         p = p->next;
 
     if (!before) p = p->next;
