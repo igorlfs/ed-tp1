@@ -31,6 +31,23 @@ void Escalonador::insertUrl(const URL &u) {
     }
 }
 
+void Escalonador::escalonaTudo() {
+    while (!this->siteQueue.empty()) {
+        this->siteQueue.getFront()->item.printUrls();
+        this->siteQueue.unline();
+    }
+}
+
+void Escalonador::escalonaHost(const Host &h, const int &n) {
+    // assert 1 <= n <= size
+    LinkedList *p = this->siteQueue.getUrlsFromHost(h);
+    URL u;
+    for (int i = 0; i < n; ++i) {
+        u = p->removeEnd();
+        u.print();
+    }
+}
+
 // Pré condição: h é um host da lista (se não for apenas retorno)
 void Escalonador::listUrls(const Host &h) const {
     if (!this->siteQueue.isHostInQueue(h)) return;

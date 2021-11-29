@@ -2,7 +2,7 @@
 
 template <typename T> class Cell {
   public:
-    Cell() { this->next = nullptr; };
+    Cell() { this->next = nullptr; }
 
   private:
     T item;
@@ -10,4 +10,5 @@ template <typename T> class Cell {
 
     friend class LinkedList;
     friend class LinkedQueue;
+    friend class Escalonador;
 };

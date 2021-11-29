@@ -5,6 +5,8 @@
 class Escalonador {
   public:
     void insertUrl(const URL &u);
+    void escalonaTudo();
+    void escalonaHost(const Host &h, const int &n);
     void listUrls(const Host &h) const;
     void listHosts() const;
     void clearHost(const Host &h);
