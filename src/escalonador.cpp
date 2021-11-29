@@ -45,7 +45,7 @@ void Escalonador::escalonaHost(const Host &h, const int &n) {
     LinkedList *p = this->siteQueue.getUrlsFromHost(h);
     URL u;
     for (int i = 0; i < n; ++i) {
-        u = p->removeEnd();
+        u = p->removeBeg();
         u.print();
     }
 }
