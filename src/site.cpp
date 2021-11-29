@@ -12,3 +12,5 @@ void Site::setHost(const URL &u) {
 }
 
 void Site::printHost() const { std::cout << this->host << '\n'; }
+
+void Site::printUrls() const { this->urls.print(); }
