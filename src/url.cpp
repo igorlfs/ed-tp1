@@ -33,11 +33,17 @@ URL::URL(string s) {
         this->host = s.substr(0, host);
         s.erase(0, host + 1);
 
-        // Estou considerando que não é possível ter fragment sem query
         delim path = s.find('?');
-        if (path == string::npos)
-            this->path = s;
-        else {
+        if (path == string::npos) {
+            delim frag = s.find('#');
+            if (frag == string::npos)
+                this->path = s;
+            else {
+                this->path = s.substr(0, frag);
+                s.erase(0, frag + 1);
+                this->fragment = s;
+            }
+        } else {
             this->path = s.substr(0, path);
             s.erase(0, path + 1);
             delim quer = s.find('#');
