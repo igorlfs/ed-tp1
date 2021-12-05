@@ -15,7 +15,7 @@ $(EXE): $(OBJ)/url.o $(OBJ)/linkedlist.o $(OBJ)/site.o $(OBJ)/linkedqueue.o $(OB
 $(OBJ)/url.o: $(INC)/url.hpp $(SRC)/url.cpp
 		$(CC) $(CFLAGS) -c $(SRC)/url.cpp -o $(OBJ)/url.o
 
-$(OBJ)/linkedlist.o: $(INC)/cell.hpp $(INC)/url.hpp $(INC)/list.hpp $(INC)/linkedlist.hpp $(SRC)/linkedlist.cpp
+$(OBJ)/linkedlist.o: $(INC)/msgassert.hpp $(INC)/cell.hpp $(INC)/url.hpp $(INC)/list.hpp $(INC)/linkedlist.hpp $(SRC)/linkedlist.cpp
 		$(CC) $(CFLAGS) -c $(SRC)/linkedlist.cpp -o $(OBJ)/linkedlist.o
 
 $(OBJ)/site.o: $(INC)/linkedlist.hpp $(INC)/site.hpp $(SRC)/site.cpp
@@ -32,4 +32,3 @@ $(OBJ)/main.o: $(INC)/escalonador.hpp $(SRC)/main.cpp
 
 clean:
 	rm -rI $(OBJ)/* $(BIN)/*
-
