@@ -71,9 +71,7 @@ void URL::print(std::ostream &out) const {
 
 // @brief retorna url completa
 string URL::getUrl() const {
-    string s = protocol + "://" + host;
-    if (!this->path.empty()) s += '/' + this->path;
-    if (!this->query.empty()) s += '?' + this->query;
+    string s = getUrlNoFrag();
     if (!this->fragment.empty()) s += '#' + this->fragment;
     return s;
 }
