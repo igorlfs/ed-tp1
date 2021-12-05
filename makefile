@@ -18,7 +18,7 @@ $(OBJ)/url.o: $(INC)/url.hpp $(SRC)/url.cpp
 $(OBJ)/linkedlist.o: $(INC)/msgassert.hpp $(INC)/cell.hpp $(INC)/url.hpp $(INC)/list.hpp $(INC)/linkedlist.hpp $(SRC)/linkedlist.cpp
 		$(CC) $(CFLAGS) -c $(SRC)/linkedlist.cpp -o $(OBJ)/linkedlist.o
 
-$(OBJ)/linkedqueue.o: $(INC)/list.hpp $(INC)/site.hpp $(INC)/linkedqueue.hpp $(SRC)/linkedqueue.cpp
+$(OBJ)/linkedqueue.o: $(INC)/msgassert.hpp $(INC)/list.hpp $(INC)/site.hpp $(INC)/linkedqueue.hpp $(SRC)/linkedqueue.cpp
 		$(CC) $(CFLAGS) -c $(SRC)/linkedqueue.cpp -o $(OBJ)/linkedqueue.o
 
 $(OBJ)/escalonador.o: $(INC)/linkedqueue.hpp $(INC)/escalonador.hpp $(SRC)/escalonador.cpp
