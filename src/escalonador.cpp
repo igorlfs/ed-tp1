@@ -1,4 +1,5 @@
 #include "escalonador.hpp"
+#include <iostream>
 
 const char *forbiddenMimes[6] = {".jpg", ".gif", ".mp3",
                                  ".avi", ".doc", ".pdf"};
@@ -47,6 +48,7 @@ void Escalonador::escalonaTudo() {
 
 void Escalonador::escalonaHost(const Host &h, const int &n) {
     // assert 1 <= n <= size
+    // se n > size imprima n
     LinkedList *p = this->siteQueue.getUrlsFromHost(h);
     URL u;
     for (int i = 0; i < n; ++i) {
@@ -68,3 +70,11 @@ void Escalonador::clearHost(const Host &h) {
 }
 
 void Escalonador::clearAll() { this->siteQueue.clear(); }
+
+void Escalonador::addUrls(const int &n, std::ifstream &ist) {
+    string str;
+    for (int i = 0; i < n; ++i) {
+        std::getline(ist, str);
+        insertUrl(str);
+    }
+}

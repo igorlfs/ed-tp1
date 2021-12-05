@@ -7,6 +7,7 @@ class Escalonador {
   public:
     Escalonador(const string &outFile) { this->outputFile.open(outFile); }
     ~Escalonador() { this->outputFile.close(); }
+
     void insertUrl(const URL &u);
     void escalonaTudo();
     void escalonaN(const int &n);
@@ -15,6 +16,8 @@ class Escalonador {
     void listHosts();
     void clearHost(const Host &h);
     void clearAll();
+
+    void addUrls(const int &n, std::ifstream &ist);
 
   private:
     std::ofstream outputFile;
