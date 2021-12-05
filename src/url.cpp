@@ -3,8 +3,10 @@
 
 typedef unsigned long delim;
 
+// @brief contar quantos c existem em str
+// @param str, c
+// @return número de ocorrências de c em str
 unsigned countCharStr(const std::string &str, const char c) {
-
     unsigned n = 0;
     for (char i : str)
         if (c == i) n++;
@@ -23,10 +25,7 @@ URL::URL(string s) {
     // Encontre 'www.' e se existir remova até ele.
     // Se não existir apenas exclua até o ://
     delim www = s.find("www.");
-    if (www != string::npos)
-        s.erase(0, www + 4);
-    else
-        s.erase(0, prot + 3);
+    (www != string::npos) ? s.erase(0, www + 4) : s.erase(0, prot + 3);
 
     delim host = s.find('/');
     if (host != string::npos) {
@@ -70,7 +69,7 @@ void URL::print(std::ostream &out) const {
     out << '\n';
 }
 
-// @brief retorna url
+// @brief retorna url completa
 string URL::getUrl() const {
     string s = protocol + "://" + host;
     if (!this->path.empty()) s += '/' + this->path;
