@@ -28,6 +28,11 @@ Escalonador::Escalonador(const string &outFile) {
     erroAssert(this->outputFile.is_open(), "Erro ao abrir arquivo de saída");
 }
 
+Escalonador::~Escalonador() {
+    this->outputFile.close();
+    erroAssert(!this->outputFile.is_open(), "Erro ao fechar arquivo de saída");
+}
+
 // Se válida, insere a URL no lugar certo
 void Escalonador::insertUrl(const URL &u) {
     if (u.getProtocol() != allowedProtocol) return;
@@ -45,26 +50,33 @@ void Escalonador::insertUrl(const URL &u) {
         : this->siteQueue.line(urlNoFrag);
 }
 
+// Imprime N URLs ou o máximo que o escalonador contém
 void Escalonador::escalonaN(const int &n) {
     this->siteQueue.printNUrls(n, this->outputFile);
+    erroAssert(!this->outputFile.fail(), "Erro ao escrever arquivo de saída");
 }
 
+// Escalona toda a fila, removendo-a
 void Escalonador::escalonaTudo() {
     while (!this->siteQueue.empty()) {
         this->siteQueue.getFront()->item.printUrls(this->outputFile);
         this->siteQueue.unline();
     }
+    erroAssert(!this->outputFile.fail(), "Erro ao escrever arquivo de saída");
 }
 
-void Escalonador::escalonaHost(const Host &h, const int &n) {
-    // assert 1 <= n <= size
-    // se n > size imprima n
-    LinkedList *p = this->siteQueue.getUrlsFromHost(h);
+// Escalona n URLs do Host, ou o Host todo,
+// mantendo sua URL na fila
+void Escalonador::escalonaHost(const Host &h, int &n) {
     URL u;
+    LinkedList *p = this->siteQueue.getUrlsFromHost(h);
+    if (n > p->getSize()) n = p->getSize();
+
     for (int i = 0; i < n; ++i) {
         u = p->removeBeg();
         u.print(this->outputFile);
     }
+    erroAssert(!this->outputFile.fail(), "Erro ao escrever arquivo de saída");
 }
 
 // Se o Host estiver presente, lista suas URLs, caso contrário faz nada

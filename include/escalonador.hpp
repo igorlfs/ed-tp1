@@ -6,12 +6,12 @@
 class Escalonador {
   public:
     Escalonador(const string &outFile);
-    ~Escalonador() { this->outputFile.close(); }
+    ~Escalonador();
 
     void insertUrl(const URL &u);
     void escalonaTudo();
     void escalonaN(const int &n);
-    void escalonaHost(const Host &h, const int &n);
+    void escalonaHost(const Host &h, int &n);
     void listUrls(const Host &h);
     void clearHost(const Host &h);
     void listHosts();
