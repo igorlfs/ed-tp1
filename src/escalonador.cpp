@@ -1,8 +1,9 @@
 #include "escalonador.hpp"
 #include <iostream>
 
-const char *forbiddenMimes[6] = {".jpg", ".gif", ".mp3",
-                                 ".avi", ".doc", ".pdf"};
+static constexpr int numFM = 6;
+static const char *forbiddenMimes[numFM] = {".jpg", ".gif", ".mp3",
+                                            ".avi", ".doc", ".pdf"};
 
 bool endsWith(const string &str, const string &end) {
     if (end.length() > str.length())
@@ -15,7 +16,7 @@ bool endsWith(const string &str, const string &end) {
 }
 
 bool Escalonador::isUrlForbidden(const string &u) {
-    for (int i = 0; i < 6; ++i)
+    for (int i = 0; i < numFM; ++i)
         if (endsWith(u, forbiddenMimes[i])) return true;
 
     return false;
