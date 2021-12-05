@@ -1,10 +1,15 @@
 #include "escalonador.hpp"
 #include "msgassert.hpp"
+#include <sstream>
 
-static constexpr int numFM = 6;
-static const char *forbiddenMimes[numFM] = {".jpg", ".gif", ".mp3",
-                                            ".avi", ".doc", ".pdf"};
-static const char *allowedProtocol = "http";
+static constexpr int NUM_FM = 6;
+static const char *forbiddenMimes[NUM_FM] = {".jpg", ".gif", ".mp3",
+                                             ".avi", ".doc", ".pdf"};
+static const char *PROTOCOL = "http";
+static const unsigned NUM_COM = 8;
+static const string COMMANDS[NUM_COM] = {
+    "ADD_URLS", "ESCALONA_TUDO", "ESCALONA",   "ESCALONA_HOST",
+    "VER_HOST", "LISTA_HOSTS",   "LIMPA_HOST", "LIMPA_TUDO"};
 
 bool endsWith(const string &str, const string &end) {
     if (end.length() > str.length())
@@ -17,7 +22,7 @@ bool endsWith(const string &str, const string &end) {
 }
 
 bool Escalonador::isUrlForbidden(const string &u) {
-    for (int i = 0; i < numFM; ++i)
+    for (int i = 0; i < NUM_FM; ++i)
         if (endsWith(u, forbiddenMimes[i])) return true;
 
     return false;
@@ -35,7 +40,7 @@ Escalonador::~Escalonador() {
 
 // Se válida, insere a URL no lugar certo
 void Escalonador::insertUrl(const URL &u) {
-    if (u.getProtocol() != allowedProtocol) return;
+    if (u.getProtocol() != PROTOCOL) return;
 
     string urlWithFrag = u.getUrl();
     if (isUrlForbidden(urlWithFrag)) return;
@@ -107,4 +112,51 @@ void Escalonador::addUrls(const int &n, std::ifstream &ist) {
         if (ist.eof()) break;
         if (str.find("://") != string::npos) insertUrl(str);
     }
+}
+
+void Escalonador::readFile(std::ifstream &inputFile) {
+
+    do {
+        string line;
+        std::getline(inputFile, line);
+        std::stringstream ss(line);
+
+        if (line.find(COMMANDS[0]) != string::npos) {
+            string str;
+            int x;
+            ss >> str >> x;
+            addUrls(x, inputFile);
+        } else if (line.find(COMMANDS[1]) != string::npos) {
+            escalonaTudo();
+        } else if (line.find(COMMANDS[3]) != string::npos) {
+            Host h;
+            string str;
+            int x;
+            ss >> str >> h >> x;
+            escalonaHost(h, x);
+        } else if (line.find(COMMANDS[2]) != string::npos) {
+            string str;
+            int x;
+            ss >> str >> x;
+            escalonaN(x);
+        } else if (line.find(COMMANDS[4]) != string::npos) {
+            Host h;
+            string str;
+            ss >> str >> h;
+            listUrls(h);
+        } else if (line.find(COMMANDS[5]) != string::npos) {
+            listHosts();
+        } else if (line.find(COMMANDS[6]) != string::npos) {
+            Host h;
+            string str;
+            ss >> str >> h;
+            clearHost(str);
+        } else if (line.find(COMMANDS[7]) != string::npos)
+            clearAll();
+
+        erroAssert(!inputFile.bad(), "Erro ao ler do arquivo");
+
+        if (inputFile.eof()) break;
+
+    } while (true);
 }

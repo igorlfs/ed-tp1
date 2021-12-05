@@ -24,7 +24,7 @@ $(OBJ)/linkedqueue.o: $(INC)/msgassert.hpp $(INC)/list.hpp $(INC)/site.hpp $(INC
 $(OBJ)/escalonador.o: $(INC)/msgassert.hpp $(INC)/linkedqueue.hpp $(INC)/escalonador.hpp $(SRC)/escalonador.cpp
 		$(CC) $(CFLAGS) -c $(SRC)/escalonador.cpp -o $(OBJ)/escalonador.o
 
-$(OBJ)/main.o: $(INC)/escalonador.hpp $(SRC)/main.cpp
+$(OBJ)/main.o: $(INC)/msgassert.hpp $(INC)/escalonador.hpp $(SRC)/main.cpp
 		$(CC) $(CFLAGS) -c $(SRC)/main.cpp -o $(OBJ)/main.o
 
 clean:

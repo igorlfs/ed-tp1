@@ -19,6 +19,8 @@ class Escalonador {
 
     void addUrls(const int &n, std::ifstream &ist);
 
+    void readFile(std::ifstream &inputFile);
+
   private:
     std::ofstream outputFile;
     LinkedQueue siteQueue;
