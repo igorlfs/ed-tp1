@@ -75,6 +75,6 @@ void Escalonador::addUrls(const int &n, std::ifstream &ist) {
     string str;
     for (int i = 0; i < n; ++i) {
         std::getline(ist, str);
-        insertUrl(str);
+        if (str.find("://") != string::npos) insertUrl(str);
     }
 }
