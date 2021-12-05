@@ -4,6 +4,7 @@
 static constexpr int numFM = 6;
 static const char *forbiddenMimes[numFM] = {".jpg", ".gif", ".mp3",
                                             ".avi", ".doc", ".pdf"};
+static const char *allowedProtocol = "http";
 
 bool endsWith(const string &str, const string &end) {
     if (end.length() > str.length())
@@ -23,17 +24,19 @@ bool Escalonador::isUrlForbidden(const string &u) {
 }
 
 void Escalonador::insertUrl(const URL &u) {
-    if (u.getProtocol() != "http") return;
+    if (u.getProtocol() != allowedProtocol) return;
+
     string urlWithFrag = u.getUrl();
     if (isUrlForbidden(urlWithFrag)) return;
 
     string urlNoFrag = u.getUrlNoFrag();
     string urlHost = u.getHost();
-    if (this->siteQueue.isHostInQueue(urlHost)) {
-        this->siteQueue.getUrlsFromHost(urlHost)->insertMid(urlNoFrag);
-    } else {
-        this->siteQueue.line(urlNoFrag);
-    }
+
+    // Se o Host está presente, insira a Url em sua lista
+    // Caso contrário, crie uma nova célula na fila
+    (this->siteQueue.isHostInQueue(urlHost))
+        ? this->siteQueue.getUrlsFromHost(urlHost)->insertMid(urlNoFrag)
+        : this->siteQueue.line(urlNoFrag);
 }
 
 void Escalonador::escalonaN(const int &n) {
