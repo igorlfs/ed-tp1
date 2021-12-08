@@ -9,15 +9,10 @@ class LinkedList : public LinearList {
     LinkedList();
     ~LinkedList();
 
-    URL getItem(const int &pos) const;
-    void setItem(const URL &u, const int &pos);
-
     void insertBeg(const URL &u);
     void insertMid(const URL &u);
 
     URL removeBeg();
-    URL removeEnd();
-    URL removePos(const int &pos);
 
     int searchDepth(const int &dep) const;
     bool containsURL(const string &str) const;

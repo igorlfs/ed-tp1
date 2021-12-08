@@ -26,16 +26,6 @@ Cell<URL> *LinkedList::setPos(const int &pos,
     return p;
 }
 
-URL LinkedList::getItem(const int &pos) const {
-    Cell<URL> *p = setPos(pos);
-    return p->item;
-}
-
-void LinkedList::setItem(const URL &u, const int &pos) {
-    Cell<URL> *p = setPos(pos);
-    p->item = u;
-}
-
 void LinkedList::insertBeg(const URL &u) {
     Cell<URL> *newCell = new (std::nothrow) Cell<URL>;
     erroAssert(newCell, "Falha ao alocar dinamicamente a célula.");
@@ -92,36 +82,6 @@ URL LinkedList::removeBeg() {
 
     URL aux = p->item;
     delete p;
-
-    return aux;
-}
-
-URL LinkedList::removeEnd() {
-    erroAssert(!empty(), "Falha ao remover item da lista: lista vazia");
-
-    Cell<URL> *p = setPos(this->size, true);
-    p->next = nullptr;
-    this->size--;
-
-    URL aux = this->tail->item;
-    delete this->tail;
-    this->tail = p;
-
-    return aux;
-}
-
-URL LinkedList::removePos(const int &pos) {
-    erroAssert(!empty(), "Falha ao remover item da lista: lista vazia");
-
-    Cell<URL> *p = setPos(pos, true);
-    Cell<URL> *q = p->next;
-    p->next = q->next;
-    this->size--;
-
-    URL aux = q->item;
-    delete q;
-
-    if (p->next == nullptr) this->tail = p;
 
     return aux;
 }
