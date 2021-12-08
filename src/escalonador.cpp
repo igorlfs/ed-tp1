@@ -64,11 +64,14 @@ void Escalonador::escalonaN(const int &n) {
     erroAssert(!this->outputFile.fail(), "Erro ao escrever arquivo de saída");
 }
 
-// Escalona toda a fila, removendo-a
+// Escalona toda a fila, removendo as URLs
 void Escalonador::escalonaTudo() {
-    while (!this->siteQueue.empty()) {
-        this->siteQueue.getFront()->item.printUrls(this->outputFile);
-        this->siteQueue.unline();
+    Cell<Site> *p = this->siteQueue.getFront();
+
+    for (int i = 0; i < this->siteQueue.getSize(); ++i) {
+        int s = p->item.getUrls()->getSize();
+        escalonaHost(p->item.getHost(), s);
+        p = p->next;
     }
 
     erroAssert(!this->outputFile.fail(), "Erro ao escrever arquivo de saída");
