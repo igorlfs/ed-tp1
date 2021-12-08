@@ -75,7 +75,7 @@ void LinkedQueue::printNUrls(const int &n, std::ostream &out) {
         int sizeL = q->getSize();
 
         for (int i = 0; i < sizeL && m != n; ++i, ++m) {
-            u = q->removeEnd();
+            u = q->removeBeg();
             u.print(out);
         }
 
