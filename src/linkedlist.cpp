@@ -1,7 +1,7 @@
 #include "linkedlist.hpp"
 #include "msgassert.hpp"
 
-LinkedList::LinkedList() : List() {
+LinkedList::LinkedList() : LinearList() {
     this->head = new (std::nothrow) Cell<URL>;
     erroAssert(this->head, "Falha ao alocar dinamicamente a célula.");
     this->tail = this->head;

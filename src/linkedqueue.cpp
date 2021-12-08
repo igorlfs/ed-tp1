@@ -1,7 +1,7 @@
 #include "linkedqueue.hpp"
 #include "msgassert.hpp"
 
-LinkedQueue::LinkedQueue() : List() {
+LinkedQueue::LinkedQueue() : LinearList() {
     this->front = new (std::nothrow) Cell<Site>;
     erroAssert(this->front, "Falha ao alocar dinamicamente a célula."); 
     this->rear = this->front;

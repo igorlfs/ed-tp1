@@ -1,9 +1,9 @@
 #pragma once
 
-#include "list.hpp"
+#include "linearlist.hpp"
 #include "site.hpp"
 
-class LinkedQueue : public List {
+class LinkedQueue : public LinearList {
   public:
     LinkedQueue();
     ~LinkedQueue();

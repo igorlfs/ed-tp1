@@ -1,10 +1,10 @@
 #pragma once
 
 #include "cell.hpp"
-#include "list.hpp"
+#include "linearlist.hpp"
 #include "url.hpp"
 
-class LinkedList : public List {
+class LinkedList : public LinearList {
   public:
     LinkedList();
     ~LinkedList();

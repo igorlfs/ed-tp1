@@ -1,8 +1,8 @@
 #pragma once
 
-class List {
+class LinearList {
   public:
-    List() { this->size = 0; }
+    LinearList() { this->size = 0; }
 
     // @brief retorna o tamanho da fila
     // @return tamanho da fila
