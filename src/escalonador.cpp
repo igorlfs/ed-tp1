@@ -6,7 +6,7 @@ static constexpr int NUM_FM = 6;
 static const char *forbiddenMimes[NUM_FM] = {".jpg", ".gif", ".mp3",
                                              ".avi", ".doc", ".pdf"};
 static const char *PROTOCOL = "http";
-static const unsigned NUM_COM = 8;
+static constexpr unsigned NUM_COM = 8;
 static const string COMMANDS[NUM_COM] = {
     "ADD_URLS", "ESCALONA_TUDO", "ESCALONA",   "ESCALONA_HOST",
     "VER_HOST", "LISTA_HOSTS",   "LIMPA_HOST", "LIMPA_TUDO"};
@@ -30,11 +30,13 @@ bool Escalonador::isUrlForbidden(const string &u) {
 
 Escalonador::Escalonador(const string &outFile) {
     this->outputFile.open(outFile);
+
     erroAssert(this->outputFile.is_open(), "Erro ao abrir arquivo de saída");
 }
 
 Escalonador::~Escalonador() {
     this->outputFile.close();
+
     erroAssert(!this->outputFile.is_open(), "Erro ao fechar arquivo de saída");
 }
 
@@ -58,6 +60,7 @@ void Escalonador::insertUrl(const URL &u) {
 // Imprime N URLs ou o máximo que o escalonador contém
 void Escalonador::escalonaN(const int &n) {
     this->siteQueue.printNUrls(n, this->outputFile);
+
     erroAssert(!this->outputFile.fail(), "Erro ao escrever arquivo de saída");
 }
 
@@ -67,12 +70,16 @@ void Escalonador::escalonaTudo() {
         this->siteQueue.getFront()->item.printUrls(this->outputFile);
         this->siteQueue.unline();
     }
+
     erroAssert(!this->outputFile.fail(), "Erro ao escrever arquivo de saída");
 }
 
 // Escalona n URLs do Host, ou o Host todo,
 // mantendo sua URL na fila
+// Se o Host estiver presente, escalona, caso contrário faz nada
 void Escalonador::escalonaHost(const Host &h, int &n) {
+    if (!this->siteQueue.isHostInQueue(h)) return;
+
     URL u;
     LinkedList *p = this->siteQueue.getUrlsFromHost(h);
     if (n > p->getSize()) n = p->getSize();
@@ -81,25 +88,30 @@ void Escalonador::escalonaHost(const Host &h, int &n) {
         u = p->removeBeg();
         u.print(this->outputFile);
     }
+
     erroAssert(!this->outputFile.fail(), "Erro ao escrever arquivo de saída");
 }
 
 // Se o Host estiver presente, lista suas URLs, caso contrário faz nada
 void Escalonador::listUrls(const Host &h) {
     if (!this->siteQueue.isHostInQueue(h)) return;
+
     this->siteQueue.getUrlsFromHost(h)->print(this->outputFile);
+
     erroAssert(!this->outputFile.fail(), "Erro ao escrever arquivo de saída");
 }
 
 // Se o Host estiver presente, limpa-o, caso contrário faz nada
 void Escalonador::clearHost(const Host &h) {
     if (!this->siteQueue.isHostInQueue(h)) return;
+
     this->siteQueue.getUrlsFromHost(h)->clear();
 }
 
 // Se a lista estiver vazia, faz nada, caso contrário imprime Hosts
 void Escalonador::listHosts() {
     this->siteQueue.printHosts(this->outputFile);
+
     erroAssert(!this->outputFile.fail(), "Erro ao escrever arquivo de saída");
 }
 
@@ -115,7 +127,6 @@ void Escalonador::addUrls(const int &n, std::ifstream &ist) {
 }
 
 void Escalonador::readFile(std::ifstream &inputFile) {
-
     do {
         string line;
         std::getline(inputFile, line);

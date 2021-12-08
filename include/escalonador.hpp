@@ -24,5 +24,6 @@ class Escalonador {
   private:
     std::ofstream outputFile;
     LinkedQueue siteQueue;
+
     bool isUrlForbidden(const string &u);
 };
