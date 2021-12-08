@@ -16,6 +16,7 @@ class LinkedQueue : public LinearList {
     bool isHostInQueue(const Host &h) const;
     LinkedList *getUrlsFromHost(const Host &h) const;
 
+    void escalonaTudo(std::ostream &out);
     void printNUrls(const int &n, std::ostream &out);
     void printHosts(std::ostream &out) const;
 

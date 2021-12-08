@@ -10,5 +10,4 @@ template <typename T> class Cell {
 
     friend class LinkedList;
     friend class LinkedQueue;
-    friend class Escalonador;
 };

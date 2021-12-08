@@ -62,6 +62,15 @@ LinkedList *LinkedQueue::getUrlsFromHost(const Host &h) const {
     throw "Erro: Host não está na fila";
 }
 
+void LinkedQueue::escalonaTudo(std::ostream &out) {
+    if (empty()) return;
+
+    Cell<Site> *p = this->front->next;
+    for (int i = 0; i < getSize(); ++i, p = p->next) {
+        p->item.getUrls()->escalonaTudo(out);
+    }
+}
+
 void LinkedQueue::printNUrls(const int &n, std::ostream &out) {
     if (empty()) return;
 

@@ -14,7 +14,7 @@ LinkedList::~LinkedList() {
 
 Cell<URL> *LinkedList::setPos(const int &pos,
                               const bool &before = false) const {
-    erroAssert(pos <= this->size && pos >= 0,
+    erroAssert(pos <= this->size && pos >= 1,
                "Posição de lista ligada inesperada.");
 
     Cell<URL> *p = this->head;
@@ -121,6 +121,18 @@ void LinkedList::print(std::ostream &out) const {
     while (p != nullptr) {
         p->item.print(out);
         p = p->next;
+    }
+}
+
+void LinkedList::escalona(std::ostream &out, const int &n) {
+    for (int i = 0; i < n; ++i) {
+        removeBeg().print(out);
+    }
+}
+
+void LinkedList::escalonaTudo(std::ostream &out) {
+    while (!empty()) {
+        removeBeg().print(out);
     }
 }
 

@@ -17,6 +17,7 @@ bool endsWith(const string &str, const string &end) {
     else {
         unsigned strL = str.length();
         unsigned endL = end.length();
+
         return (0 == str.compare(strL - endL, endL, end));
     }
 }
@@ -64,33 +65,22 @@ void Escalonador::escalonaN(const int &n) {
     erroAssert(!this->outputFile.fail(), "Erro ao escrever arquivo de saída");
 }
 
-// Escalona toda a fila, removendo as URLs
+// Escalona toda a fila, removendo as URLs, mantendo os Sites na fila
+// Se a Lista estiver vazia, faz nada, caso contrário escalona tudo
 void Escalonador::escalonaTudo() {
-    Cell<Site> *p = this->siteQueue.getFront();
-
-    for (int i = 0; i < this->siteQueue.getSize(); ++i) {
-        int s = p->item.getUrls()->getSize();
-        escalonaHost(p->item.getHost(), s);
-        p = p->next;
-    }
+    this->siteQueue.escalonaTudo(this->outputFile);
 
     erroAssert(!this->outputFile.fail(), "Erro ao escrever arquivo de saída");
 }
 
-// Escalona n URLs do Host, ou o Host todo,
-// mantendo sua URL na fila
+// Escalona n URLs do Host, ou o Host todo, mantendo o Site na fila
 // Se o Host estiver presente, escalona, caso contrário faz nada
 void Escalonador::escalonaHost(const Host &h, int &n) {
     if (!this->siteQueue.isHostInQueue(h)) return;
 
-    URL u;
     LinkedList *p = this->siteQueue.getUrlsFromHost(h);
     if (n > p->getSize()) n = p->getSize();
-
-    for (int i = 0; i < n; ++i) {
-        u = p->removeBeg();
-        u.print(this->outputFile);
-    }
+    p->escalona(this->outputFile, n);
 
     erroAssert(!this->outputFile.fail(), "Erro ao escrever arquivo de saída");
 }
@@ -122,9 +112,12 @@ void Escalonador::clearAll() { this->siteQueue.clear(); }
 
 void Escalonador::addUrls(const int &n, std::ifstream &ist) {
     string str;
+
     for (int i = 0; i < n; ++i) {
         std::getline(ist, str);
+
         if (ist.eof()) break;
+
         if (str.find("://") != string::npos) insertUrl(str);
     }
 }

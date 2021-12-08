@@ -18,6 +18,8 @@ class LinkedList : public LinearList {
     bool containsURL(const string &str) const;
 
     void print(std::ostream &out) const;
+    void escalona(std::ostream &out, const int &n);
+    void escalonaTudo(std::ostream &out);
 
     void clear() override;
 
