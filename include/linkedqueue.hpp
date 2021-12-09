@@ -11,7 +11,6 @@ class LinkedQueue : public LinearList {
     Cell<Site> *getFront() { return this->front->next; }
 
     void line(const URL &u);
-    void unline();
 
     bool isHostInQueue(const Host &h) const;
     LinkedList *getUrlsFromHost(const Host &h) const;

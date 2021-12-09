@@ -22,17 +22,6 @@ void LinkedQueue::line(const URL &u) {
     this->size++;
 }
 
-void LinkedQueue::unline() {
-    erroAssert(!empty(), "Falha ao remover item da fila: fila vazia.");
-
-    Cell<Site> *p = this->front;
-    this->front = this->front->next;
-    if (this->front == nullptr) this->rear = this->front;
-    delete p;
-
-    this->size--;
-}
-
 bool LinkedQueue::isHostInQueue(const Host &h) const {
     if (empty()) return false;
 
