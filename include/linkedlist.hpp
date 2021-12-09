@@ -30,7 +30,10 @@ class LinkedList : public LinearList {
     Cell<URL> *head;
     Cell<URL> *tail;
 
+    // Setters
     Cell<URL> *setPos(const int &pos, const bool &before) const;
+
+    // Modificadores
     void insertEnd(const URL &u);
     void insertPos(const URL &u, const int &pos);
 };
