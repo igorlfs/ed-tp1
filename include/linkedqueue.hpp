@@ -5,25 +5,28 @@
 
 class LinkedQueue : public LinearList {
   public:
+    // Construtores
     LinkedQueue();
+    // Destrutor
     ~LinkedQueue();
 
+    // Getters
     Cell<Site> *getFront() { return this->front->next; }
-
-    void line(const URL &u);
-
-    bool isHostInQueue(const Host &h) const;
     LinkedList *getUrlsFromHost(const Host &h) const;
 
+    // Modificadores
+    void line(const URL &u);
     void escalonaTudo(std::ostream &out);
+    void clear() override;
+
+    // Lookup
+    bool isHostInQueue(const Host &h) const;
+
+    // Operações
     void printNUrls(const int &n, std::ostream &out);
     void printHosts(std::ostream &out) const;
-
-    void clear() override;
 
   private:
     Cell<Site> *front;
     Cell<Site> *rear;
-
-    friend class Escalonador;
 };
