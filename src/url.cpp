@@ -19,11 +19,12 @@ unsigned countCharStr(const std::string &str, const char c) {
 URL::URL(string s) {
     if (s[s.size() - 1] == '/') s.pop_back();
 
+    // Na hora de inserir, assumimos que "://" está presente
     delim prot = s.find("://");
     this->protocol = s.substr(0, prot);
 
     // Encontre 'www.' e se existir remova até ele.
-    // Se não existir apenas exclua até o ://
+    // Se não existir apenas exclua até o "://"
     delim www = s.find("www.");
     (www != string::npos) ? s.erase(0, www + 4) : s.erase(0, prot + 3);
 
@@ -61,6 +62,8 @@ URL::URL(string s) {
     }
 }
 
+// @brief imprime a URL na saída out
+// @param saída out
 void URL::print(std::ostream &out) const {
     out << this->protocol << "://" << this->host;
     if (!this->path.empty()) out << '/' << this->path;
