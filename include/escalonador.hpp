@@ -5,9 +5,12 @@
 
 class Escalonador {
   public:
+    // Constutores
     Escalonador(const string &outFile);
+    // Destrutor
     ~Escalonador();
 
+    // Modificadores
     void insertUrl(const URL &u);
     void escalonaTudo();
     void escalonaN(const int &n);
@@ -17,13 +20,14 @@ class Escalonador {
     void listHosts();
     void clearAll();
 
+    // Auxiliares
     void addUrls(const int &n, std::ifstream &ist);
-
     void readFile(std::ifstream &inputFile);
 
   private:
     std::ofstream outputFile;
     LinkedQueue siteQueue;
 
+    // Auxiliar
     bool isUrlForbidden(const string &u);
 };
