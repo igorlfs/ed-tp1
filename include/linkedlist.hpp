@@ -6,28 +6,29 @@
 
 class LinkedList : public LinearList {
   public:
+    // Construtores
     LinkedList();
+    // Destrutor
     ~LinkedList();
 
+    // Modificadores
     void insertBeg(const URL &u);
     void insertMid(const URL &u);
-
     URL removeBeg();
-
-    int searchDepth(const int &dep) const;
-    bool containsURL(const string &str) const;
-
-    void print(std::ostream &out) const;
+    void clear() override;
     void escalona(std::ostream &out, const int &n);
     void escalonaTudo(std::ostream &out);
 
-    void clear() override;
+    // Lookup
+    bool containsURL(const string &str) const;
+
+    // Operações
+    int searchDepth(const int &dep) const;
+    void print(std::ostream &out) const;
 
   private:
     Cell<URL> *head;
     Cell<URL> *tail;
-
-    static constexpr int INVALID_POS = -1;
 
     Cell<URL> *setPos(const int &pos, const bool &before) const;
     void insertEnd(const URL &u);

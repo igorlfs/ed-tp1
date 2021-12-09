@@ -2,6 +2,7 @@
 
 template <typename T> class Cell {
   public:
+    // Construtores
     Cell() { this->next = nullptr; }
 
   private:
