@@ -11,7 +11,7 @@ class LinkedQueue : public LinearList {
     ~LinkedQueue();
 
     // Getters
-    Cell<Site> *getFront() { return this->front->next; }
+    Cell<Site> *getFront() const { return this->front->next; }
     LinkedList *getUrlsFromHost(const Host &h) const;
 
     // Modificadores
@@ -23,7 +23,7 @@ class LinkedQueue : public LinearList {
     bool isHostInQueue(const Host &h) const;
 
     // Operações
-    void printNUrls(const int &n, std::ostream &out);
+    void printNUrls(const int &n, std::ostream &out) const;
     void printHosts(std::ostream &out) const;
 
   private:

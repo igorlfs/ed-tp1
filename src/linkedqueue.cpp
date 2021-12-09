@@ -90,7 +90,7 @@ void LinkedQueue::clear() {
 // @brief imprime na saída out, no máximo,
 // n URLs que estão nas listas da fila
 // @param n (quantidade de URLs), out (saída)
-void LinkedQueue::printNUrls(const int &n, std::ostream &out) {
+void LinkedQueue::printNUrls(const int &n, std::ostream &out) const {
     if (empty()) return;
 
     Cell<Site> *p = this->front->next;
