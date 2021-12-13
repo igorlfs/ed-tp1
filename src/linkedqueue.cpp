@@ -1,6 +1,5 @@
 #include "linkedqueue.hpp"
 #include "msgassert.hpp"
-#include <cassert>
 
 // @brief constrói fila inicializando cabeça e cauda
 LinkedQueue::LinkedQueue() : LinearList() {
@@ -18,20 +17,15 @@ LinkedQueue::~LinkedQueue() {
 // @brief retorna a lista de URLs de um dado Host
 // @param h (Host)
 LinkedList *LinkedQueue::getUrlsFromHost(const Host &h) const {
-    // Não precisamos checar se está vazia,
-    // pois verificamos que a fila tem pelo
-    // menos um elemento (que tem Host h)
-    assert(!empty());
-
     Cell<Site> *p = this->front->next;
+
     while (p != nullptr) {
         if (p->item.getHost() == h) return p->item.getUrls();
         p = p->next;
     }
 
-    // Não deve chegar aqui, 
-    // pois verifircamos que o host está na fila
-    // antes de chamar a função
+    // Não deve chegar aqui, pois verifircamos que o host está
+    // na fila antes de chamar a função
     throw "Erro: Host não está na fila";
 }
 
@@ -50,21 +44,18 @@ void LinkedQueue::line(const URL &u) {
 // @brief escalona toda a fila, Site por Site
 // @param out (saída do escalonamento)
 void LinkedQueue::escalonaTudo(std::ostream &out) {
-    if (empty()) return;
-
     Cell<Site> *p = this->front->next;
-    for (int i = 0; i < getSize(); ++i, p = p->next) {
+
+    for (; p != nullptr; p = p->next)
         p->item.getUrls()->escalonaTudo(out);
-    }
 }
 
 // @brief checa se um dado host está na fila
 // @param h (Host)
 // @return true se está presente, false caso contrário
 bool LinkedQueue::isHostInQueue(const Host &h) const {
-    if (empty()) return false;
-
     Cell<Site> *p = this->front->next;
+
     while (p != nullptr) {
         if (p->item.getHost() == h) return true;
         p = p->next;
@@ -75,10 +66,9 @@ bool LinkedQueue::isHostInQueue(const Host &h) const {
 
 // @brief desaloca células da fila, faz cauda=cabeça, coloca tamanho 0
 void LinkedQueue::clear() {
-    if (empty()) return;
+    Cell<Site> *p = this->front->next;
 
-    for (Cell<Site> *p = this->front->next; p != nullptr;
-         p = this->front->next) {
+    for (; p != nullptr; p = this->front->next) {
         this->front->next = p->next;
         delete p;
     }
@@ -116,8 +106,6 @@ void LinkedQueue::printNUrls(const int &n, std::ostream &out) const {
 // @brief imprime hosts da fila na saída out
 // @param out
 void LinkedQueue::printHosts(std::ostream &out) const {
-    if (empty()) return;
-
     Cell<Site> *p = this->front->next;
 
     while (p != nullptr) {
