@@ -2,6 +2,7 @@
 #include "msgassert.hpp"
 #include <sstream>
 
+static constexpr int INVALID_COMMAND = -1;
 static constexpr int NUM_FM = 6;
 static const char *forbiddenMimes[NUM_FM] = {".jpg", ".gif", ".mp3",
                                              ".avi", ".doc", ".pdf"};
@@ -142,8 +143,50 @@ void Escalonador::addUrls(const int &n, std::ifstream &ist) {
 
         if (ist.eof()) break;
 
+        // Não insira linhas que não são URLs
         if (str.find("://") != string::npos) insertUrl(str);
     }
+}
+
+int isLineValid(const string &str) {
+
+    // Testa ESCALONA_TUDO, LISTA_HOSTS e LIMPA_TUDO
+    if (str == COMMANDS[1]) return 1;
+    if (str == COMMANDS[5]) return 5;
+    if (str == COMMANDS[7]) return 7;
+
+    // Testa VER_HOST e LIMPA_HOST
+    // A linha deve começar com essas instruções
+    // Não nos preocupamos em validar o Host, 
+    // porque se o Host não estiver presente, 
+    // as funções lidam com essa exceção
+    if (!str.find(COMMANDS[4])) return 4;
+    if (!str.find(COMMANDS[6])) return 6;
+
+    // Testa ESCALONA_HOST
+    if (!str.find(COMMANDS[3])) {
+        std::stringstream ss(str);
+        string command, host;
+        int quantity;
+        ss >> command >> host >> quantity;
+        avisoAssert(quantity >= 0, "Quantidade negativa: " << quantity);
+        if (quantity >= 0) return 3;
+    }
+
+    // Testa ADD_URLS e ESCALONA
+    // A quantidade não pode ser negativa
+    for (unsigned i = 0; i <= 2; i += 2) {
+        if (!str.find(COMMANDS[i])) {
+            std::stringstream ss(str);
+            string command;
+            int quantity;
+            ss >> command >> quantity;
+            avisoAssert(quantity >= 0, "Quantidade negativa: " << quantity);
+            if (quantity >= 0) return i;
+        }
+    }
+
+    return INVALID_COMMAND;
 }
 
 // @brief lê arquivo contendo instruções e as executa
@@ -153,39 +196,50 @@ void Escalonador::readFile(std::ifstream &inputFile) {
         string line;
         std::getline(inputFile, line);
         std::stringstream ss(line);
+        int commandIndex = isLineValid(line);
 
-        if (line.find(COMMANDS[0]) != string::npos) {
-            string str;
-            int x;
-            ss >> str >> x;
-            addUrls(x, inputFile);
-        } else if (line.find(COMMANDS[1]) != string::npos) {
-            escalonaTudo();
-        } else if (line.find(COMMANDS[3]) != string::npos) {
-            Host h;
-            string str;
-            int x;
-            ss >> str >> h >> x;
-            escalonaHost(h, x);
-        } else if (line.find(COMMANDS[2]) != string::npos) {
-            string str;
-            int x;
-            ss >> str >> x;
-            escalonaN(x);
-        } else if (line.find(COMMANDS[4]) != string::npos) {
-            Host h;
-            string str;
-            ss >> str >> h;
-            listUrls(h);
-        } else if (line.find(COMMANDS[5]) != string::npos) {
-            listHosts();
-        } else if (line.find(COMMANDS[6]) != string::npos) {
-            Host h;
-            string str;
-            ss >> str >> h;
-            clearHost(str);
-        } else if (line.find(COMMANDS[7]) != string::npos)
-            clearAll();
+        switch (commandIndex) {
+            case 1: escalonaTudo(); break;
+            case 5: listHosts(); break;
+            case 7: clearAll(); break;
+            case 4: {
+                Host h;
+                string str;
+                ss >> str >> h;
+                listUrls(h);
+                break;
+            }
+            case 6: {
+                Host h;
+                string str;
+                ss >> str >> h;
+                clearHost(str);
+                break;
+            }
+            case 3: {
+                Host h;
+                string str;
+                int x;
+                ss >> str >> h >> x;
+                escalonaHost(h, x);
+                break;
+            }
+            case 0: {
+                isLineValid(line);
+                string str;
+                int x;
+                ss >> str >> x;
+                addUrls(x, inputFile);
+                break;
+            }
+            case 2: {
+                string str;
+                int x;
+                ss >> str >> x;
+                escalonaN(x);
+                break;
+            }
+        }
 
         erroAssert(!inputFile.bad(), "Erro ao ler do arquivo");
 
