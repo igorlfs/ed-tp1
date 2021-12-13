@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021) (preloaded format=pdflatex 2021.10.26)  13 DEC 2021 09:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021) (preloaded format=pdflatex 2021.10.26)  13 DEC 2021 18:36
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -330,23 +330,23 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <7> on input line 61.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <5> on input line 61.
- [2] [3] [4] [5] (./documentação.aux)
+ [2] [3] [4] [5] [6] [7] (./documentação.aux)
 Package rerunfilecheck Info: File `documentação.out' has not changed.
-(rerunfilecheck)             Checksum: 2F36A807BF4534F707C6A29C406B740C;1702.
+(rerunfilecheck)             Checksum: 1A0A76082350DF66E92E879684B8D493;2338.
  ) 
 Here is how much of TeX's memory you used:
- 9703 strings out of 480030
- 146892 string characters out of 5889895
- 461100 words of memory out of 5000000
- 27203 multiletter control sequences out of 15000+600000
+ 9717 strings out of 480030
+ 147084 string characters out of 5889895
+ 461103 words of memory out of 5000000
+ 27209 multiletter control sequences out of 15000+600000
  466348 words of font info for 73 fonts, out of 8000000 for 9000
  321 hyphenation exceptions out of 8191
- 60i,8n,66p,1168b,344s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,8n,66p,957b,344s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/opt/texlive/2021/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/opt/texlive/2021/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/opt/texlive/2021/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}</opt/texlive/2021/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></opt/texlive/2021/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></opt/texlive/2021/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></opt/texlive/2021/texmf-dist/fonts/type1/public/lm/lmr10.pfb></opt/texlive/2021/texmf-dist/fonts/type1/public/lm/lmr12.pfb></opt/texlive/2021/texmf-dist/fonts/type1/public/lm/lmr6.pfb></opt/texlive/2021/texmf-dist/fonts/type1/public/lm/lmr7.pfb></opt/texlive/2021/texmf-dist/fonts/type1/public/lm/lmr8.pfb></opt/texlive/2021/texmf-dist/fonts/type1/public/lm/lmri10.pfb></opt/texlive/2021/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></opt/texlive/2021/texmf-dist/fonts/type1/public/lm/lmtt12.pfb>
-Output written on documentação.pdf (5 pages, 264183 bytes).
+Output written on documentação.pdf (7 pages, 271003 bytes).
 PDF statistics:
- 162 PDF objects out of 1000 (max. 8388607)
- 130 compressed objects within 2 object streams
- 30 named destinations out of 1000 (max. 500000)
- 97 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 200 PDF objects out of 1000 (max. 8388607)
+ 166 compressed objects within 2 object streams
+ 38 named destinations out of 1000 (max. 500000)
+ 145 words of extra memory for PDF output out of 10000 (max. 10000000)
 

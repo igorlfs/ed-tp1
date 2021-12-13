@@ -66,7 +66,7 @@ Neste trabalho, uma classe abstrata \code{LinearList} foi usada para representar
 
 A primeira especialização de lista linear trabalhada foi a lista (simplesmente) encadeada, implementada na classe \code{LinkedList} (herdeira de \code{LinearList}). Na lista simplesmente encadeada, cada elemento é uma célula, que possui seu conteúdo e um apontador para a posição seguinte. A célula foi implementada na classe \code{Cell}, que possui esses membros e um construtor que inicializa a posição seguinte para nulo. A \code{LinkedList} usa alocação dinâmica de memória, com uma célula cabeça cujo conteúdo não importa, tendo como propósito simplificar a implementação de alguns métodos, e células do tipo \code{URL}.
 
-A implementação da classe \code{LinkedList} teve como grande inspiração as aulas do professor Chaimowicz. Os principais métodos são os de construção, destruição (e limpeza), inserção e remoção. No construtor somente é criada uma nova célula, que assume o papel de cabeça e cauda. No destrutor, o método auxiliar \code{clear()} é chamado, e a célula restante é destruída. O método \code{clear()} deleta as células em sequência, caso existam. Há diversos métodos de inserção, a depender da posição: \code{insertBegin()}, para o começo, \code{insertEnd()} para o fim, \code{insertPos()} em uma posição arbitrária (selecionada a partir do método \code{setPos()}) e \code{insertMid()}, que decide se uma dada entrada deve ou ser inserida no fim ou em uma posição específica, com base em sua profundidade. Essa divisão permite o encapsulamento (\code{insertMid()} e \code{insertEnd()} são privados). A classe também conta com um método de remoção, \code{removeBeg()}, que remove elementos do começo (não foi preciso remover elementos de outras posições, pela especificação).
+A implementação da classe \code{LinkedList} teve como grande inspiração as aulas do professor Chaimowicz. Os principais métodos são os de construção, destruição (e limpeza), inserção e remoção. No construtor somente é criada uma nova célula, que assume o papel de cabeça e cauda. No destrutor, o método auxiliar \code{clear()} é chamado, e a célula restante é destruída. O método \code{clear()} deleta as células em sequência, caso existam. Há 2 métodos de inserção, a depender da posição: \code{insertBeg()}, para o começo e \code{insertPos()} em uma posição arbitrária. A classe também conta com um método de remoção, \code{removeBeg()}, que remove elementos do começo (não foi preciso remover elementos de outras posições, pela especificação).
 
 Além disso, há um método de impressão \code{print()} (que imprime, em sequência, as URLs) e alguns voltados para o uso com URLs: o \code{searchDepth()}, que compara as profundidades das URLs para definir a posição de inserção (que é em seguida passada para o \code{setPos()}) e o \code{containsUrl()} que verifica se uma dada URL está presente na lista. Por fim, existem dois métodos de escalonamento: um que toma um inteiro \( n \) como parâmetro, e escalona até \( n \) células, e um que escalona toda a lista.
 
@@ -88,7 +88,33 @@ A classe \code{Escalonador} possui como membros uma fila de sites e um arquivo d
 
 \section{Estratégias de Robustez}
 
+Foram empregadas algumas estratégias de robustez ao longo do programa. Não foi priorizada nenhuma propriedade: tanto robustez como corretude são usadas, a depender do caso. Quando se opta pela corretude é porque houve algum ``erro irremediável'', desse modo, é acionado o macro \code{erroAssert(e,m)}, definido no header \code{msgassert.h}.
 
+\subsection{URL}
+
+Alguns cuidados precisaram ser tomados ao se trabalhar com a URL: no construtor, assume-se que toda URL contém a substring ``://''. Essa precaução é então tomada na hora de se inserir a URL na lista: se ela não conter a substring, ela não é inserida. Outro cuidado tomado foi na hora de remover o ``www.'' das URLs que o possuem: deve ser o ``www.'' que é sucessor de ``://''. No mais, é um importante prestar atenção em onde começam e onde terminam as partes da URL.
+
+\subsection{LinkedList}
+
+As principais exceções na lista ligada estão relacionadas à memória ou ao acesso de uma posição inválida. Como a alocação é dinâmica, sempre se verifica se ela ocorreu apropriadamente, usando o \code{std::nothrow}. Essa verificação é feita no construtor e nos métodos de inserção. Quando a lista está vazia, o método de remoção não deve funcionar, então o programa é abortado caso feita essa solicitação. O método \code{setPos()} possui uma verificação se a posição solicitada é válida, e se não for, o programa é encerrado. Mais um caso deve ser tratado: não é válido escalonar posições excedentes ao tamanho da lista. Quando isso foi uma preocupação, na hora de escalonar um Host, foi tomado o tamanho da lista como um limite superior para o escalonamento.
+
+\subsection{Site}
+
+Nessa classe só existe um tratamento possível, que não foi implementado. Em princípio, a função \code{setHost()} deveria limpar a lista de URLs do Site (afinal, não faz sentido um novo Host armazenar as URLs antigas). Mas como o programa não tem sobreposição de Sites em nenhum momento, essa tática não foi adotada.
+
+\subsection{LinkedQueue}
+
+Na fila, assim como na lista, é preciso sempre verificar se a alocação dinâmica ocorreu adequadamente (no construtor, no método \code{line()}). Além disso, a função \code{getUrlsFromHost()} pressupõe que o Host está na fila: sempre que esse método é chamado, o método \code{isHostInQueue()} é chamado antes, para verificar essa condição. Caso sejam feitas alterações a posteriori que por ventura quebrem essa condição, o \code{geteUrlsFromHost()} \textit{joga} uma exceção. Por fim, o método \code{escalonaNUrls()} também exige certo tratamento: se a lista está vazia, não há como escalonar \( n \) URLs, mas aqui a abordagem foi de tolerância à falhas. Também é preciso checar se o final foi atingido sem atingir as \( n \) URLs, seguindo a mesma abordagem. 
+
+\subsection{Escalonador}
+
+Como mencionado anterirormente, o escalonador possui um membro que é um arquivo de saída. Desta maneira, o construtor e o destrutor ficam responsáveis por gerenciar a abertura e o fechamento do tal, respectivamente. Em caso de erro o programa é abortado. É nessa classe em que há uma validação das URLs com respeito ao protocolo e afins. Sempre que é realizada uma operação que envolve a escrita no arquivo, é verificada se a mesma ocorreu conforme o esperado usando o \code{fail()}. O método \code{clearAll()}, que \textit{limpa tudo} faz uma checagem adicional para verificar se a limpeza ocorreu como esperado, avaliando se o tamanho é nulo.
+
+O arquivo é parcialmente validado pela função \code{isLineValid()}, que avalia, linha a linha, se a \textbf{instrução} fornecida está correta. Algumas instruções exigem verificação mais robusta (``match'' completo), outras são menos rígidas, com possíveis exceções tratadas em classes de nível mais baixo. A numeração dos comandos seguiu a da especificação do TP, e não uma ordem mais coerente com a implementação. Detalhe: é importante que a instrução ESCALONA venha depois de ESCALONA\_TUDO e ESCALONA\_HOST, para evitar conflitos. Após a execução de cada instrução, verifica-se se a leitura ocorreu como esperado, usando a função \code{bad()}. Em duas etapas é checado se o EOF foi atingido: na leitura das instruções e na leitura das URLs, que é feita num método separado (\code{addUrls()}).
+
+\subsection{Programa principal}
+
+No programa principal existem dois tratamentos: é exigido que o usuário passe pelo menos um parâmetro ao executrar o programa e, como na classe \code{Escalonador}, verifica-se a abertura e fechamento do arquivo de entrada usando a função \code{is\_open()}. 
 
 \section{Análise Experimental}
 
