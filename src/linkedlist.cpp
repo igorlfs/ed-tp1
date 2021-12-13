@@ -1,8 +1,5 @@
 #include "linkedlist.hpp"
 #include "msgassert.hpp"
-#include <cassert>
-
-static constexpr int INVALID_POS = -1;
 
 // @brief Constrói lista inicializando cabeça e cauda
 LinkedList::LinkedList() : LinearList() {
@@ -129,15 +126,14 @@ bool LinkedList::containsURL(const string &str) const {
 // @brief encontra a posição da primeira URL da lista cuja
 // profundidade é maior que a dada
 // @param dep
-// @return posição em questão, ou INVÁLIDO se não estiver presente
-// Nesse caso, inserimos no final
+// @return posição em questão ou final da lista
 int LinkedList::searchDepth(const int &dep) const {
     // Só chamo searchDepth se não for a primeira inserção
     // Então o tamanho nunca é nulo
     assert(!empty());
 
     Cell<URL> *p = this->head->next;
-    int aux = 0;
+    int aux = 1;
 
     while (p != nullptr) {
         if (p->item.getDepth() > dep) return aux;
@@ -145,7 +141,7 @@ int LinkedList::searchDepth(const int &dep) const {
         p = p->next;
     }
 
-    return INVALID_POS;
+    return aux;
 }
 
 // @brief imprime a lista na saída out
