@@ -1,0 +1,133 @@
+\documentclass{article}
+\usepackage{enumitem}
+\usepackage{indentfirst}
+\usepackage{amsfonts}
+\usepackage{hyperref}           % Use links
+\usepackage{graphicx}           % Coloque figuras
+\usepackage{float}              % [...] no lugar adequado!
+\usepackage[T1]{fontenc}        % Encoding para português 
+\usepackage{lmodern}            % Conserta a fonte para PT
+\usepackage[portuguese]{babel}  % Português
+\usepackage{hyphenat}           % Use hífens corretamente
+
+\graphicspath{{./img/}}
+
+\hyphenation{mate-mática recu-perar}
+
+\setlist{  
+    listparindent=\parindent,
+    parsep=0pt,
+}
+
+\def\code#1{\texttt{#1}}
+
+\author{\textbf{Igor Lacerda Faria da Silva\( ^1 \)} }
+
+\title{\textbf{Trabalho Prático 1}
+
+\textbf{Escalonador de URLs}}
+
+\date{%
+    \( ^1 \)Departamento de Ciência da Computação - Universidade Federal de Minas Gerais (UFMG) - Belo Horizonte - MG - Brasil \\ [2ex]
+    \href{mailto:igorlfs@ufmg.br}{\nolinkurl{igorlfs@ufmg.br}}
+}
+
+\begin{document}
+
+\maketitle
+
+\section{Introdução}
+
+O problema proposto foi implementar um escalonador de URLs, como parte de um coletor de uma máquina-de-busca. O propósito de um escalonador é auxiliar na definição de uma ordem para que as páginas sejam coletadas. Existem diversas estratégias para realizar essa tarefa, mas a adotada nesse trabalho foi a \textit{depth-first}, que consiste em coletar todas as URLs de um dado host antes de passar para o próximo. Foi implementada uma leitura de arquivos, que continham uma série de instruções para a execução do escalonamento, cuja saída também foi impressa em um arquivo.
+
+Esta documentação tem como proposta explicar como se deu essa implementação, desde questões mais ligadas ao funcionamento do programa (Seção 2) e estratégias de robustez (Seção 4) como análises de complexidade (Seção 3) e experimentais (Seção 5). Ao final do texto, encontra-se uma conclusão (cujo conteúdo está mais relacionado ao aprendizado pessoal do autor com o trabalho), bibliografias e, por último, as instruções para compilação e execução.
+
+\section{Método}
+
+O programa foi desenvolvido em C++ e compilado utilizando o g++, do GNU Compiler Collection. A máquina que foi usada durante o desenvolvimento conta com 3.8Gi de memória RAM, e processador Intel(R) Core(TM) i3-2350M CPU @ 2.30GHz, e roda o sistema operacional GNU/Linux (versão do kernel: 5.15.6).
+
+A formatação do código fonte (\textbf{incluindo a indentação}): \textbf{foi feita usando a ferramenta clang-format}. Foi usado um arquivo customizado para isso, que se encontra na raiz do projeto, com o nome de \textit{.clang-format}. É um arquivo bem curto, baseado em preferências pessoais do autor, mas que \textbf{garante a consistência da formatação do projeto}.
+
+\subsection{Organização do código}
+
+O projeto atende à especificação no que diz respeito à organização do código de forma geral (cabeçalhos em \code{./include}, etc). Em particular, a única divergência é que os \emph{headers} usam a extensão \code{.hpp} e não \code{.h} (idiossincrasia do editor de texto).
+
+Alguns dos arquivos de cabeçalho definem estruturas de dados mais básicas e gerais, como \code{cell.hpp}, que define uma célula genérica de lista usando templates; \code{linearlist.hpp}, que define uma lista abstrata; e 2 especializações baseadas em alocação dinâmica de memória, a saber \code{linkedlist.hpp} (lista encadeada) e \code{linkedqueue.hpp} (fila encadeada). Outros arquivos já apresentam estruturas mais voltadas à aplicação em questão, como \code{url.hpp} (um conjunto de strings conforme definido na especificação), \code{site.hpp} (um Host e uma lista de de URLs, para serem os membros da fila) e \code{escalonador.hpp}, que implementa de fato as diversas operações solicitadas. Por fim, também tem os ligados à robustez e às análises, como o \code{msgassert.hpp}.
+
+A estruturas dos arquivos fonte é similar, mas algumas classes possuem métodos muito simples, que não foram implementados num arquivo fonte separado. As listas não abstratas e a classes \code{URL}  e \code{Escalonador} foram implementados separadamente. O último arquivo dessa categoria é o programa principal, que se limita a fazer somente o básico para atender à especificação, chamando métodos implementados em outras partes do programa.
+
+\subsection{Estruturas de Dados, TADs e métodos}
+
+Existem duas estruturas de dados principais no programa: lista encadeada e fila (encadeada). Ambas são derivações de uma estrutura \textit{lista linear}, sendo que a fila é muito mais restritiva com relação a algumas operações, como inserção e remoção. Em princípio, a lista linear consiste numa sequência de \( n \) elementos (que pode ser vazia), em que há noção de sucessão e antecedência. Nesse sentido, uma propriedade interessante é a existência de um elemento que não tem sucessores (chamado cauda) e um elemento que não tem antecessores (chamado cabeça), que não são necessariamente distintos.
+
+Neste trabalho, uma classe abstrata \code{LinearList} foi usada para representar uma lista linear. Ela possui apenas um membro, \code{size} (int), e métodos muito simples: um construtor que inicializa o membro como 0, um método \code{getSize()}  que retorna \code{size}, um método \code{empty()} que verifica se \code{size} é igual a 0, e um método virtual de limpeza: \code{clear()}.
+
+\subsubsection{Lista Encadeada}
+
+A primeira especialização de lista linear trabalhada foi a lista (simplesmente) encadeada, implementada na classe \code{LinkedList} (herdeira de \code{LinearList}). Na lista simplesmente encadeada, cada elemento é uma célula, que possui seu conteúdo e um apontador para a posição seguinte. A célula foi implementada na classe \code{Cell}, que possui esses membros e um construtor que inicializa a posição seguinte para nulo. A \code{LinkedList} usa alocação dinâmica de memória, com uma célula cabeça cujo conteúdo não importa, tendo como propósito simplificar a implementação de alguns métodos, e células do tipo \code{URL}.
+
+A implementação da classe \code{LinkedList} teve como grande inspiração as aulas do professor Chaimowicz. Os principais métodos são os de construção, destruição (e limpeza), inserção e remoção. No construtor somente é criada uma nova célula, que assume o papel de cabeça e cauda. No destrutor, o método auxiliar \code{clear()} é chamado, e a célula restante é destruída. O método \code{clear()} deleta as células em sequência, caso existam. Há diversos métodos de inserção, a depender da posição: \code{insertBegin()}, para o começo, \code{insertEnd()} para o fim, \code{insertPos()} em uma posição arbitrária (selecionada a partir do método \code{setPos()}) e \code{insertMid()}, que decide se uma dada entrada deve ou ser inserida no fim ou em uma posição específica, com base em sua profundidade. Essa divisão permite o encapsulamento (\code{insertMid()} e \code{insertEnd()} são privados). A classe também conta com um método de remoção, \code{removeBeg()}, que remove elementos do começo (não foi preciso remover elementos de outras posições, pela especificação).
+
+Além disso, há um método de impressão \code{print()} (que imprime, em sequência, as URLs) e alguns voltados para o uso com URLs: o \code{searchDepth()}, que compara as profundidades das URLs para definir a posição de inserção (que é em seguida passada para o \code{setPos()}) e o \code{containsUrl()} que verifica se uma dada URL está presente na lista. Por fim, existem dois métodos de escalonamento: um que toma um inteiro \( n \) como parâmetro, e escalona até \( n \) células, e um que escalona toda a lista.
+
+\subsubsection{Fila Encadeada}
+
+Em filas, que são um tipo específico de listas, a inserção só é permitida em uma extremidade e a remoção só é permitida na outra extremidade. Na classe \code{LinkedQueue} (herdeira de \code{LinearList}), que implementa uma fila, a inserção só é permitida nos fundos (\textit{rear}) e a remoção então só é permitida na frente (\textit{front}). De resto, ela é semelhante à \code{LinkedList}, também inspirada nas aulas do professor Chaimowicz, fazendo uso de células e afins. Em particular, ela é uma fila de Sites (tipo \code{Site}), que é uma classe que contém um Host e uma lista de URLs. Os principais métodos da \code{LinkedQueue} são o contrutor, destrutor (e limpar), enfileirar (\code{line()}), que funcionam de forma semelhante aos seus análogos da \code{LinkedList} (aqui, \code{line()} é como \code{insertBeg()}, já que é a única posição permitida de inserção).
+
+Ademais, também possui métodos relacionados ao uso do escalonador em si, como o método que busca se dado Host está na fila (\code{isHostInQueue()}), o que retorna a lista de URLs dado um Host (\code{getUrlsFromHost()}), e duas funções de impressão distintas (uma imprime os Hosts e a outra imprime até \( n \) URLs entre todas da fila, em ordem). Finalmente, temos um método \code{escalonaTudo()}, que chama o método de escalonar tudo para cada um dos sites da fila.
+
+\subsection{Outras classes}
+
+Além das listas (e célula), o programa conta com 3 classes ligadas ao escalonamento: \code{URL}, \code{Site} e \code{Escalonador}. A \code{URL} é somente um conjunto de strings, cada uma representando uma parte da URL (protocolo, host, path, etc), um natural (a profundiade), e alguns métodos: diversos \textit{getters}, um método de impressão (\code{print}) e 2 contrutores, um \textit{default} (necessário para o uso como célula via templates) e um que constrói uma URL dada uma string. Essa classe foi implementada para simplificar alguns requisitos na construção de URLs e facilitar a separação entre as diferentes partes da URL.
+
+A classe \code{Site}, como mencionado anteriormente, tem como propósito fundamental aliar uma lista de URLs a um Host (string), possuindo alguns \textit{getters}, \textit{setters}, \textit{printers}\footnote{Achei essa terminoliga apropriada para métodos de impressão.} e 2 construtores: um \textit{default} e um que dada uma URL, inicializa o Host e a cabeça da lista de URLs. O interessante dessa implementação é que ela permite separar os Hosts da sua lista de URLs, assim, é possível escalonar e continuar ``lembrando'' do Host.
+
+A classe \code{Escalonador} possui como membros uma fila de sites e um arquivo de saída, e implementa todos os métodos da especificação, além de alguns adicionais, para a leitura do arquivo (\code{readFile()}) e auxiliar durante a inserção (\code{addUrls(), isUrlForbidden()}). E claro, um destrutor e um contrutor, que manejam o arquivo de saída.
+
+\section{Análise de Complexidade}
+
+\section{Estratégias de Robustez}
+
+
+
+\section{Análise Experimental}
+
+\section{Conclusões}
+
+\section{Bibliografia}
+
+\begin{enumerate}
+
+    \item CHAIMOWICZ, Luiz. \textbf{Listas Encadeadas}. [S. l.], 24 ago. 2020. Disponível em: \url{https://www.youtube.com/watch?v=l4gEM46FznI}. Acesso em 6 dec 2021.
+
+    \item CHAIMOWICZ, Luiz. \textbf{Filas - Implementação com Apontadores}. [S. l.], 24 ago. 2020. Disponível em: \url{https://www.youtube.com/watch?v=scNtNVD6HRE}. Acesso em 6 dec 2021.
+        
+\end{enumerate}
+
+
+\newpage
+\section*{Instruções}
+
+\subsection*{Compilação}
+
+Você pode compilar o programa da seguinte maneira:
+
+\begin{enumerate}
+    \item Abra um terminal;
+    \item Utilize o comando \code{cd} para mudar de diretório para a localização da raiz do projeto;
+    \item Utilize o comando \code{make}. 
+\end{enumerate}
+
+Pronto! O programa principal foi compilado. 
+
+\subsection*{Execução}
+
+Você pode rodar o programa da seguinte maneira:
+
+\begin{enumerate}
+    \item Abra um terminal;
+    \item Utilize o comando \code{cd} para mudar de diretório para a localização da raiz do projeto;
+    \item Utilize o comando \code{./bin/binary <nome-arquivo-entrada>}. Esse parâmetro é obrigatório!
+\end{enumerate}
+
+\end{document}
