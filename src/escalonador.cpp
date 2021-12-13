@@ -95,8 +95,8 @@ void Escalonador::escalonaTudo() {
 // Se o Host estiver ausente, faz nada
 void Escalonador::escalonaHost(const Host &h, int &n) {
     if (!this->siteQueue.isHostInQueue(h)) return;
-
     LinkedList *p = this->siteQueue.getUrlsFromHost(h);
+
     if (n > p->getSize()) n = p->getSize();
     p->escalona(this->outputFile, n);
 
@@ -124,7 +124,6 @@ void Escalonador::clearHost(const Host &h) {
 }
 
 // @brief imprime os Hosts da fila
-// Se a fila estiver vazia, faz nada
 void Escalonador::listHosts() {
     this->siteQueue.printHosts(this->outputFile);
 
@@ -153,6 +152,9 @@ void Escalonador::addUrls(const int &n, std::ifstream &ist) {
     }
 }
 
+// @brief verifica se a linha é válida
+// @param str (linha)
+// @return inteiro com o comando correpondente ou inválido
 int isLineValid(const string &str) {
 
     // Testa ESCALONA_TUDO, LISTA_HOSTS e LIMPA_TUDO
@@ -203,43 +205,35 @@ void Escalonador::readFile(std::ifstream &inputFile) {
         std::stringstream ss(line);
         int commandIndex = isLineValid(line);
 
+        Host h;
+        string str;
+        int x;
+
         switch (commandIndex) {
             case 1: escalonaTudo(); break;
             case 5: listHosts(); break;
             case 7: clearAll(); break;
             case 4: {
-                Host h;
-                string str;
                 ss >> str >> h;
                 listUrls(h);
                 break;
             }
             case 6: {
-                Host h;
-                string str;
                 ss >> str >> h;
                 clearHost(str);
                 break;
             }
             case 3: {
-                Host h;
-                string str;
-                int x;
                 ss >> str >> h >> x;
                 escalonaHost(h, x);
                 break;
             }
             case 0: {
-                isLineValid(line);
-                string str;
-                int x;
                 ss >> str >> x;
                 addUrls(x, inputFile);
                 break;
             }
             case 2: {
-                string str;
-                int x;
                 ss >> str >> x;
                 escalonaN(x);
                 break;
