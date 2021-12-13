@@ -78,9 +78,8 @@ URL LinkedList::removeBeg() {
 
 // @brief desaloca células da lista, faz cauda=cabeça, coloca tamanho 0
 void LinkedList::clear() {
-    if (empty()) return;
-
     Cell<URL> *p = this->head->next;
+
     while (p != nullptr) {
         this->head->next = p->next;
         delete p;
@@ -94,27 +93,24 @@ void LinkedList::clear() {
 // @brief remove n células do começo, as imprimindo na saída out
 // @param out (saída), n
 void LinkedList::escalona(std::ostream &out, const int &n) {
-    for (int i = 0; i < n; ++i) {
+    for (int i = 0; i < n; ++i)
         removeBeg().print(out);
-    }
 }
 
 // @brief remove todas as células da lista (em ordem),
 // as imprimindo na saída out
 // @param out (saída)
 void LinkedList::escalonaTudo(std::ostream &out) {
-    while (!empty()) {
+    while (!empty())
         removeBeg().print(out);
-    }
 }
 
 // @brief verifica se a lista contém a URL
 // @param str, URL procurada
 // @return true se URL está na lista e false caso contraŕio
 bool LinkedList::containsURL(const string &str) const {
-    if (empty()) return false;
-
     Cell<URL> *p = this->head->next;
+
     while (p != nullptr) {
         if (p->item.getUrl() == str) return true;
         p = p->next;
@@ -128,10 +124,6 @@ bool LinkedList::containsURL(const string &str) const {
 // @param dep
 // @return posição em questão ou final da lista
 int LinkedList::searchDepth(const int &dep) const {
-    // Só chamo searchDepth se não for a primeira inserção
-    // Então o tamanho nunca é nulo
-    assert(!empty());
-
     Cell<URL> *p = this->head->next;
     int aux = 1;
 
@@ -147,9 +139,8 @@ int LinkedList::searchDepth(const int &dep) const {
 // @brief imprime a lista na saída out
 // @param out
 void LinkedList::print(std::ostream &out) const {
-    if (empty()) return;
-
     Cell<URL> *p = this->head->next;
+    
     while (p != nullptr) {
         p->item.print(out);
         p = p->next;
