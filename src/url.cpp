@@ -23,10 +23,10 @@ URL::URL(string s) {
     delim prot = s.find("://");
     this->protocol = s.substr(0, prot);
 
-    // Encontre 'www.' e se existir remova até ele.
-    // Se não existir apenas exclua até o "://"
+    // Se "www." sucedeer "://", remova até ele.
+    // Se não, apenas exclua até o "://"
     delim www = s.find("www.");
-    (www != string::npos) ? s.erase(0, www + 4) : s.erase(0, prot + 3);
+    (www == prot + 3) ? s.erase(0, www + 4) : s.erase(0, prot + 3);
 
     delim host = s.find('/');
     if (host != string::npos) {
