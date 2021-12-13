@@ -22,7 +22,7 @@ class LinkedQueue : public LinearList {
     bool isHostInQueue(const Host &h) const;
 
     // Operações
-    void printNUrls(const int &n, std::ostream &out) const;
+    void escalonaNUrls(const int &n, std::ostream &out) const;
     void printHosts(std::ostream &out) const;
 
   private:

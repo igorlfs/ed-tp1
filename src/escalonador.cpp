@@ -77,7 +77,7 @@ void Escalonador::insertUrl(const URL &u) {
 // @brief imprime n URLs ou o máximo que o escalonador contém
 // @param n (quantidade de URLs a imprimir)
 void Escalonador::escalonaN(const int &n) {
-    this->siteQueue.printNUrls(n, this->outputFile);
+    this->siteQueue.escalonaNUrls(n, this->outputFile);
 
     erroAssert(!this->outputFile.fail(), "Erro ao escrever arquivo de saída");
 }

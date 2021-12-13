@@ -77,24 +77,22 @@ void LinkedQueue::clear() {
     this->rear = this->front;
 }
 
-// @brief imprime na saída out, no máximo,
-// n URLs que estão nas listas da fila
+// @brief imprime na saída out, no máximo, n URLs que estão nas listas da fila
 // @param n (quantidade de URLs), out (saída)
-void LinkedQueue::printNUrls(const int &n, std::ostream &out) const {
+void LinkedQueue::escalonaNUrls(const int &n, std::ostream &out) const {
     if (empty()) return;
 
     Cell<Site> *p = this->front->next;
     int m = 0;
-    URL u;
 
     while (m < n) {
 
         LinkedList *q = p->item.getUrls();
         int sizeL = q->getSize();
 
-        for (int i = 0; i < sizeL && m != n; ++i, ++m) {
-            u = q->removeBeg();
-            u.print(out);
+        for (int i = 0; i < sizeL; ++i, ++m) {
+            q->removeBeg().print(out);
+            if (m == n) return;
         }
 
         if (p->next == nullptr) return;
