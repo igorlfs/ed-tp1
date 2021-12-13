@@ -11,7 +11,6 @@ class LinkedQueue : public LinearList {
     ~LinkedQueue();
 
     // Getters
-    Cell<Site> *getFront() const { return this->front->next; }
     LinkedList *getUrlsFromHost(const Host &h) const;
 
     // Modificadores
