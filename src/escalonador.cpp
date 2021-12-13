@@ -64,9 +64,14 @@ void Escalonador::insertUrl(const URL &u) {
 
     // Se o Host está presente, insira a Url em sua lista
     // Caso contrário, crie uma nova célula na fila
-    (this->siteQueue.isHostInQueue(urlHost))
-        ? this->siteQueue.getUrlsFromHost(urlHost)->insertMid(urlNoFrag)
-        : this->siteQueue.line(urlNoFrag);
+    if (this->siteQueue.isHostInQueue(urlHost)) {
+        int depth = u.getDepth();
+        LinkedList *L = this->siteQueue.getUrlsFromHost(urlHost);
+        int pos = L->searchDepth(depth);
+        L->insertPos(urlNoFrag, pos);
+    } else {
+        this->siteQueue.line(urlNoFrag);
+    }
 }
 
 // @brief imprime n URLs ou o máximo que o escalonador contém

@@ -13,7 +13,7 @@ class LinkedList : public LinearList {
 
     // Modificadores
     void insertBeg(const URL &u);
-    void insertMid(const URL &u);
+    void insertPos(const URL &u, const int &pos);
     URL removeBeg();
     void clear() override;
     void escalona(std::ostream &out, const int &n);
@@ -32,8 +32,4 @@ class LinkedList : public LinearList {
 
     // Setters
     Cell<URL> *setPos(const int &pos, const bool &before) const;
-
-    // Modificadores
-    void insertEnd(const URL &u);
-    void insertPos(const URL &u, const int &pos);
 };

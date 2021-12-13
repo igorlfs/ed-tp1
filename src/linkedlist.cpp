@@ -46,30 +46,6 @@ void LinkedList::insertBeg(const URL &u) {
     this->size++;
 }
 
-// @brief insere uma nova célula no meio (ou final) da lista
-// @param u, URL a ser inserida
-void LinkedList::insertMid(const URL &u) {
-    int depth = u.getDepth();
-    int pos = searchDepth(depth);
-
-    if (pos == INVALID_POS)
-        insertEnd(u);
-    else if (!containsURL(u.getUrl()))
-        insertPos(u, pos + 1);
-}
-
-// @brief insere uma nova célula no final da lista
-// @param u, URL a ser inserida
-void LinkedList::insertEnd(const URL &u) {
-    Cell<URL> *newCell = new (std::nothrow) Cell<URL>;
-    erroAssert(newCell, "Falha ao alocar dinamicamente a célula.");
-
-    newCell->item = u;
-    this->tail->next = newCell;
-    this->tail = newCell;
-    this->size++;
-}
-
 // @brief insere uma nova célula numa dada posição da lista
 // @param u, URL a ser inserida, pos, posição de inserção
 void LinkedList::insertPos(const URL &u, const int &pos) {
