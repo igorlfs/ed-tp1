@@ -18,8 +18,8 @@ LinkedList::~LinkedList() {
 // @param pos, before (se quero a posição antes, assume-se falso)
 Cell<URL> *LinkedList::setPos(const int &pos,
                               const bool &before = false) const {
-    erroAssert(pos <= this->size && pos >= 1,
-               "Posição de lista ligada inesperada.");
+    erroAssert(pos <= this->size + 1 && pos >= 1,
+               "Posição de lista ligada inesperada. " << pos);
 
     Cell<URL> *p = this->head;
     for (int i = 1; i < pos; ++i)
@@ -140,7 +140,7 @@ int LinkedList::searchDepth(const int &dep) const {
 // @param out
 void LinkedList::print(std::ostream &out) const {
     Cell<URL> *p = this->head->next;
-    
+
     while (p != nullptr) {
         p->item.print(out);
         p = p->next;
