@@ -64,11 +64,13 @@ void Escalonador::insertUrl(const URL &u) {
 
     // Se o Host está presente, insira a Url em sua lista
     // Caso contrário, crie uma nova célula na fila
-    if (this->siteQueue.isHostInQueue(urlHost)) {
-        int depth = u.getDepth();
-        LinkedList *L = this->siteQueue.getUrlsFromHost(urlHost);
-        int pos = L->searchDepth(depth);
-        L->insertPos(urlNoFrag, pos);
+    LinkedList *p = this->siteQueue.getUrlsFromHost(urlHost);
+    if (p) {
+        if (!p->containsURL(urlNoFrag)) {
+            int depth = u.getDepth();
+            int pos = p->searchDepth(depth);
+            p->insertPos(urlNoFrag, pos);
+        }
     } else {
         this->siteQueue.line(urlNoFrag);
     }
@@ -94,8 +96,8 @@ void Escalonador::escalonaTudo() {
 // @param h (Host), n (quantidade de URLs a escalonar)
 // Se o Host estiver ausente, faz nada
 void Escalonador::escalonaHost(const Host &h, int &n) {
-    if (!this->siteQueue.isHostInQueue(h)) return;
     LinkedList *p = this->siteQueue.getUrlsFromHost(h);
+    if (!p) return;
 
     if (n > p->getSize()) n = p->getSize();
     p->escalona(this->outputFile, n);
@@ -107,9 +109,10 @@ void Escalonador::escalonaHost(const Host &h, int &n) {
 // @param h (Host)
 // Se o Host estiver ausente, faz nada
 void Escalonador::listUrls(const Host &h) {
-    if (!this->siteQueue.isHostInQueue(h)) return;
+    LinkedList *p = this->siteQueue.getUrlsFromHost(h);
+    if (!p) return;
 
-    this->siteQueue.getUrlsFromHost(h)->print(this->outputFile);
+    p->print(this->outputFile);
 
     erroAssert(!this->outputFile.fail(), "Erro ao escrever arquivo de saída");
 }
@@ -118,9 +121,9 @@ void Escalonador::listUrls(const Host &h) {
 // @param h (Host)
 // Se o Host estiver ausente, faz nada
 void Escalonador::clearHost(const Host &h) {
-    if (!this->siteQueue.isHostInQueue(h)) return;
-
-    this->siteQueue.getUrlsFromHost(h)->clear();
+    LinkedList *p = this->siteQueue.getUrlsFromHost(h);
+    if (!p) return;
+    p->clear();
 }
 
 // @brief imprime os Hosts da fila

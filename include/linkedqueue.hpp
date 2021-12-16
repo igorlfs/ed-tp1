@@ -18,9 +18,6 @@ class LinkedQueue : public LinearList {
     void escalonaTudo(std::ostream &out);
     void clear() override;
 
-    // Lookup
-    bool isHostInQueue(const Host &h) const;
-
     // Operações
     void escalonaNUrls(const int &n, std::ostream &out) const;
     void printHosts(std::ostream &out) const;

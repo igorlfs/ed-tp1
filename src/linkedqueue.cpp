@@ -14,21 +14,6 @@ LinkedQueue::~LinkedQueue() {
     delete this->front;
 }
 
-// @brief retorna a lista de URLs de um dado Host
-// @param h (Host)
-LinkedList *LinkedQueue::getUrlsFromHost(const Host &h) const {
-    Cell<Site> *p = this->front->next;
-
-    while (p != nullptr) {
-        if (p->item.getHost() == h) return p->item.getUrls();
-        p = p->next;
-    }
-
-    // Não deve chegar aqui, pois verifircamos que o host está
-    // na fila antes de chamar a função
-    throw "Erro: Host não está na fila";
-}
-
 // @brief enfileira Site na fila
 // @param u (URL do Site)
 void LinkedQueue::line(const URL &u) {
@@ -52,16 +37,17 @@ void LinkedQueue::escalonaTudo(std::ostream &out) {
 
 // @brief checa se um dado host está na fila
 // @param h (Host)
-// @return true se está presente, false caso contrário
-bool LinkedQueue::isHostInQueue(const Host &h) const {
+// @return lista de URLs se presente, nullptr caso contrário
+LinkedList *LinkedQueue::getUrlsFromHost(const Host &h) const {
+
     Cell<Site> *p = this->front->next;
 
     while (p != nullptr) {
-        if (p->item.getHost() == h) return true;
+        if (p->item.getHost() == h) return p->item.getUrls();
         p = p->next;
     }
 
-    return false;
+    return nullptr;
 }
 
 // @brief desaloca células da fila, faz cauda=cabeça, coloca tamanho 0
