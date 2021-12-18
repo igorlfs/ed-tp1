@@ -30,9 +30,26 @@ void LinkedQueue::line(const URL &u) {
 // @param out (saída do escalonamento)
 void LinkedQueue::escalonaTudo(std::ostream &out) {
     Cell<Site> *p = this->front->next;
+    LinkedList *L;
 
-    for (; p != nullptr; p = p->next)
-        p->item.getUrls()->escalonaTudo(out);
+    while (1) {
+        L = p->item.getUrls();
+        if (!L->empty())
+            L->escalona(out, 1);
+        else
+            (p->item.setCleared());
+        // Quando chegar ao final, confira se todos estão limpos
+        if (p->next == nullptr) {
+            for (p = this->front->next; p != nullptr; p = p->next) {
+                if (!p->item.getCleared())
+                    break;
+                else if (p->next == nullptr)
+                    return;
+            }
+            p = this->front->next;
+        } else
+            p = p->next;
+    }
 }
 
 // @brief checa se um dado host está na fila

@@ -19,8 +19,10 @@ class Site {
     // Getters
     Host getHost() const { return this->host; }
     LinkedList *getUrls() { return &this->urls; }
+    bool getCleared() { return this->cleared; }
 
     // Setters
+    void setCleared() { this->cleared = 1; }
     // @brief inicia o host e insere a URL na 1ª posição da lista
     // @param URL
     void setHost(const URL &u) {
@@ -41,6 +43,7 @@ class Site {
   private:
     Host host;
     LinkedList urls;
+    bool cleared{0};
 
     friend class LinkedQueue;
 };
