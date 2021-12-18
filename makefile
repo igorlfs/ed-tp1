@@ -9,8 +9,11 @@ EXE = $(BIN)/binary
 
 CFLAGS = -Wall -Wextra -I$(INC) -std=c++17 -g
 
-$(EXE): $(OBJ)/url.o $(OBJ)/linkedlist.o $(OBJ)/linkedqueue.o $(OBJ)/escalonador.o $(OBJ)/main.o
+$(EXE): $(OBJ)/memlog.o $(OBJ)/url.o $(OBJ)/linkedlist.o $(OBJ)/linkedqueue.o $(OBJ)/escalonador.o $(OBJ)/main.o
 		$(CC) -o $(EXE) $(OBJ)/*.o
+
+$(OBJ)/memlog.o: $(INC)/memlog.hpp $(SRC)/memlog.cpp
+		$(CC) $(CFLAGS) -c $(SRC)/memlog.cpp -o $(OBJ)/memlog.o
 
 $(OBJ)/url.o: $(INC)/url.hpp $(SRC)/url.cpp
 		$(CC) $(CFLAGS) -c $(SRC)/url.cpp -o $(OBJ)/url.o

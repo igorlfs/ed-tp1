@@ -3,6 +3,7 @@
 DIR=int
 
 rm *out.txt
+rm *log.txt
 
 for f in *txt; do
     ./binary $f
