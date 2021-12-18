@@ -1,4 +1,4 @@
-PWD /home/user/ufmg/ed/tp/1/tp1/doc
+PWD /home/user/ufmg/ed/tp/1/tp1/default/doc
 INPUT /opt/texlive/2021/texmf.cnf
 INPUT /opt/texlive/2021/texmf-dist/web2c/texmf.cnf
 INPUT /opt/texlive/2021/texmf-var/web2c/pdftex/pdflatex.fmt
@@ -607,6 +607,11 @@ INPUT /opt/texlive/2021/texmf-dist/tex/latex/lm/ts1lmr.fd
 INPUT /opt/texlive/2021/texmf-dist/tex/latex/lm/ts1lmr.fd
 INPUT /opt/texlive/2021/texmf-dist/tex/latex/lm/ts1lmr.fd
 INPUT /opt/texlive/2021/texmf-dist/fonts/tfm/public/lm/ts1-lmr10.tfm
+INPUT ./img//comp-perf.png
+INPUT ./img//comp-perf.png
+INPUT ./img//comp-perf.png
+INPUT ./img//comp-perf.png
+INPUT ./img//comp-perf.png
 INPUT documentação.aux
 INPUT ./documentação.out
 INPUT ./documentação.out

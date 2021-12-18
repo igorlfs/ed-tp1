@@ -178,6 +178,28 @@ No programa principal existem dois tratamentos: é exigido que o usuário passe 
 
 \section{Análise Experimental}
 
+Nesta seção são apresentados alguns experimentos que avaliam a performance do programa: tanto no que diz respeito ao desempenho computacional (tempo de execução) quanto a eficiência no uso de memória (padrão de acesso
+e localidade de referência). Grandes agradecimentos ao professor Wagner Meira Júnior, por disponibizar o gerador de carga usado na subseção 5.1.
+
+\subsection{Desempenho Computacional}
+
+Nesta subseção é avaliado o impacto da variação de parâmetros para o programa, usando o ``gerador de carga'' e a biblioteca \code{memlog}, que foi usada para criar um registro com os tempos de início e finalização do programa. Somente as operações padrão do gerador de carga foram analisadas, ou seja, somente a inserção de URLs, a listagem do Hosts, o escalonamento completo e o método de limpeza geral. Além disso, não houve um detalhamento da duração de cada etapa. Essas escolhas foram feitas por simplificação, uma vez que uma análise metódica de cada operação ficaria muito extensa e imprática.
+
+Foram feitas duas análises do impacto na performance para diferentes parâmetros de variação da quantidade de URLs: variando o total de servidores (e mantendo o número de URLs por Host constante, igual a 3) e variando o número de URLs por Host (e mantendo o total de servidores constante):
+
+\begin{figure} [H]
+    \includegraphics[width=11cm]{comp-perf.png} 
+    \centering
+\end{figure}
+
+Mais especificamente, os parâmetros para o gerador de carga para o teste com servidores foram: \code{-s <quantidade> -u 3 -v 0 -p 5 -q 0.68}, em que a quantidade é a variável. A variança das URLs foi nula para se obter um número exato de URLs, e os parâmetros para a profunidade foram completamente arbitrários. Já no caso dos parâmetros para o teste variando as URLs por Host: \code{-s 30 -u <quantidade> -v 0 -p 5 -q 0.68}, em que a quantidade é a variável e as mesmas justificativas para os outros parâmetros se aplicam.
+
+Os resultados obtidos não contradizem a análise de complexidade e estão dentro do esperado. Outro parâmetro analisado foi a \textit{profundidade} das URLs, mas não foi obtida diferença significativa para essa mudança (como esperado).
+
+\subsection{Eficiência de Acesso à Memória}
+
+% TODO
+
 \section{Conclusões}
 
 Neste trabalho foi implementado um programa que é um componente de uma máquina de busca: um escalonador de URLs, usando a estratégia depth-first, fazendo uso de filas e listas alocadas dinamicamente e contando com leitura e escrita de arquivos.
