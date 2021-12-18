@@ -1,0 +1,14 @@
+ADD_URLS 5
+http://www.youtube.com/watch?v=lBuF54ZhZFo
+http://virtual.ufmg.br/20212/pluginfile.php/480178/mod_resource/content/3/tp1_escalonador_urls.pdf
+http://www.overleaf.com/project/
+http://www.overleaf.com/
+http://virtual.ufmg.br/20212/
+ESCALONA_TUDO
+ADD_URLS 3
+http://meet.google.com/
+http://www.tudogostoso.com.br/receita/21217-brigadeiro-branco.html
+http://www.tudogostoso.com.br/receita/1443-pao-de-queijo.html
+LISTA_HOSTS
+VER_HOST youtube.com
+VER_HOST tudogostoso.com.br

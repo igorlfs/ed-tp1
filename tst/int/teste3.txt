@@ -1,0 +1,18 @@
+ADD_URLS 6
+http://www.youtube.com/watch?v=lBuF54ZhZFo
+http://www.overleaf.com/project/
+http://www.youtube.com/
+http://www.overleaf.com/
+http://www.tudogostoso.com.br/receita/21217-brigadeiro-branco.html
+http://virtual.ufmg.br/20212/
+ADD_URLS 4
+http://ge.globo.com/futebol/futebol-internacional/futebol-espanhol/times/real-madrid/
+http://ge.globo.com/
+http://www.tudogostoso.com.br/receita/1443-pao-de-queijo.html
+http://ge.globo.com/futebol/futebol-internacional/futebol-espanhol/
+LISTA_HOSTS
+VER_HOST youtube.com
+ESCALONA_HOST overleaf.com 1
+ESCALONA_HOST meet.google.com 1
+ESCALONA 2
+VER_HOST ge.globo.com

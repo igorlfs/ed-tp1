@@ -1,0 +1,14 @@
+ADD_URLS 8
+http://virtual.ufmg.br/20212/my/
+http://www.globo.com/
+http://github.com/marketplace/
+http://virtual.ufmg.br/
+http://github.com/collections/made-in-india/
+http://github.com/
+http://github.com/explore
+http://virtual.ufmg.br/20212/course/view.php?id=11910
+LISTA_HOSTS
+ESCALONA_HOST github.com 3
+ESCALONA_TUDO
+LIMPA_TUDO
+LISTA_HOSTS

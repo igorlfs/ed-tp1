@@ -1,0 +1,16 @@
+ADD_URLS 6
+http://ge.globo.com/futebol/futebol-internacional/futebol-italiano/times/juventus/
+http://www.youtube.com/watch?v=lBuF54ZhZFo
+http://www.overleaf.com/project/
+http://www.youtube.com/
+http://www.tudogostoso.com.br/receita/1443-pao-de-queijo.html
+http://ge.globo.com/futebol/futebol-internacional/futebol-italiano/
+VER_HOST tudogostoso.com.br
+ADD_URLS 1
+http://www.youtube.com/
+ESCALONA_HOST ge.globo.com 2
+VER_HOST youtube.com
+ESCALONA_HOST youtube.com 1
+ESCALONA 2
+LISTA_HOSTS
+ESCALONA_TUDO
