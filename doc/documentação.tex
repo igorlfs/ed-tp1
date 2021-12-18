@@ -74,7 +74,7 @@ Além disso, há um método de impressão \code{print()} (que imprime, em sequê
 
 Em filas, que são um tipo específico de listas, a inserção só é permitida em uma extremidade e a remoção só é permitida na outra extremidade. Na classe \code{LinkedQueue} (herdeira de \code{LinearList}), que implementa uma fila, a inserção só é permitida nos fundos (\textit{rear}) e a remoção então só é permitida na frente (\textit{front}). De resto, ela é semelhante à \code{LinkedList}, também inspirada nas aulas do professor Chaimowicz, fazendo uso de células e afins. Em particular, ela é uma fila de Sites (tipo \code{Site}), que é uma classe que contém um Host e uma lista de URLs. Os principais métodos da \code{LinkedQueue} são o contrutor, destrutor (e limpar), enfileirar (\code{line()}), que funcionam de forma semelhante aos seus análogos da \code{LinkedList} (aqui, \code{line()} é como \code{insertBeg()}, já que é a única posição permitida de inserção).
 
-Ademais, também possui métodos relacionados ao uso do escalonador em si, como o método que busca se dado Host está na fila (\code{isHostInQueue()}), o que retorna a lista de URLs dado um Host (\code{getUrlsFromHost()}), e duas funções de impressão distintas (uma imprime os Hosts e a outra imprime até \( n \) URLs entre todas da fila, em ordem). Finalmente, temos um método \code{escalonaTudo()}, que chama o método de escalonar tudo para cada um dos sites da fila.
+Ademais, também possui métodos relacionados ao uso do escalonador em si, como o método que retorna a lista de URLs dado um Host (se estiver presente) (\code{getUrlsFromHost()}), e duas funções de impressão distintas (uma imprime os Hosts e a outra imprime até \( n \) URLs entre todas da fila, em ordem). Finalmente, o método \code{escalonaTudo()}, que chama o método de escalonar tudo para cada um dos sites da fila.
 
 \subsection{Outras classes}
 
@@ -85,6 +85,66 @@ A classe \code{Site}, como mencionado anteriormente, tem como propósito fundame
 A classe \code{Escalonador} possui como membros uma fila de sites e um arquivo de saída, e implementa todos os métodos da especificação, além de alguns adicionais, para a leitura do arquivo (\code{readFile()}) e auxiliar durante a inserção (\code{addUrls(), isUrlForbidden()}). E claro, um destrutor e um contrutor, que manejam o arquivo de saída.
 
 \section{Análise de Complexidade}
+
+A seguir, são analisadas as complexidades de tempo e de espaço dos principais métodos (as 8 instruções da especificação) do escalonador. A escolha de analisar somente esses métodos teve como base \href{https://virtual.ufmg.br/20212/mod/forum/discuss.php?d=31528}{\nolinkurl{essa}} pergunta do fórum. Alguns pressupostos foram tomados, como assumir que certas funções padrões de C++ são \(\Theta(1)\). Outra presunção é que o construtor de URLs com parâmetro é \( \Theta(1) \), o que não é bem verdade.
+
+\subsection{Métodos}
+
+\begin{itemize}
+
+    \item ADD\_URLS (\code{addUrls()} e \code{insertUrl()})
+
+        \textbf{Tempo:} a inserção de URLs é dividida em 2 métodos. \code{addUrls()} tem finalidades simples: coletar a linha, verificar se o final do arquivo foi atingido e chamar \code{insertUrl()} se a linha coletada for válida. \code{insertUrl()} é o ``cérebro'' da inserção. Por isso, não vou analisar minuciosamente \code{addUrls()}. São realizadas algumas verificações para a inserção, e algumas declarações de variáveis do tipo string, todas \( O(1) \). Em seguida, é usada a função \code{getUrlsFromHost()}. Essa função aparece em diversos métodos. Ela busca na fila, sequencialmente, se dado Host está presente, e se estiver, retorna sua lista de URLs (caso contrário um ponteiro nulo é retornado). Para \code{insertUrl()}, o melhor caso é se o Host está ausente, pois aí a fila é estendida, e o método para enfileirar é \( \Theta(1) \). Então, no melhor caso, a inserção é \( \Theta(n) \), para \( n \) tamanho da fila. 
+
+        Se o Host está presente, existe variação conforme a posição na fila (se o Host corresponde ao primeiro elemento, temos o melhor caso, se corresponde ao último, temos o pior), e deve ser avaliado se a URL já foi inserida anteriormente. Se a URL for repetida, nada é realizado. Mas para se verificar que a URL é repetida, é preciso conferir, o que é \( \Theta(m) \), pela busca sequencial de \code{containsUrl()}. Considerando o pior caso, temos \( \Theta(n+m) \) nessa situação. Mais uma possibilidade é \textit{Host presente, URL ausente}: a princípio é recuperada a \textit{profundidade} da URL em tempo constante, é feita uma busca para encontrar a posição certa de inserção (que na pior das hipóteses é a última), e por úlitmo, a inserção na posição correta, com \code{insertPos()}, que chama \code{setPos()}. Então, recapitulando o pior cenário possível: Host presente, URL ausente, URL tem profundidade maior do que as presentes. Assim, além das buscas supracitadas, \code{searchDepth()} e \code{insertPos()} ``adiconam um nível à linearidade'' (ambos \( \Theta(m) \)), cada, concluindo \( \Theta(n +3m) \). Aqui com certeza existe uma redundância, entre a busca pela profundidade correta e a inserção, que caminha até a posição correta.
+
+        \textbf{Espaço:} com Host ausente ou URL repetida, esse método é \( \Theta(1) \) com relação a complexidade de espaço. Nos outros casos também, nenhuma estrutura depende de algum tamanho em particular.
+
+    \item ESCALONA\_TUDO (\code{escalonaTudo()})
+
+        \textbf{Tempo:} essa função chama \code{escalonaTudo()} da classe \code{LinkedQueue}, que por sua vez faz chamadas sucessivas à função \code{escalonaTudo()} da classe \code{LinkedList}, e uma verificação \( O(1) \). A fila é percorrida completamente, supondo-se tamanho \( n \). No método da lista, cada uma é percorrida \( m_i \) vezes, em que \( m_i \) é o tamanho de cada lista. Certamente existe uma lista com \( M \) elementos tal que \( M \geq m_i \forall i \mid 1 \leq i \leq n \). No pior dos casos é possível então assumir que todas as listas têm tamanho \( M \). Então, cada elemento da fila entra em um laço que é executado \( M \) vezes. Assim, temos que a complexidade assintótica de tempo do método \code{escalonaTudo()} é \( \Theta(Mn) \), ou seja, quadrática. Também podem ser consideradas outras situações, como: todos os Sites \textit{estão vazios.} Nesse caso, o \code{escalonaTudo()} da lista só executa uma comparação, então nesse caso o método como um todo fica \( \Omega(n) \).
+
+        \textbf{Espaço:} apesar de existirem múltiplos casos, todos envolvem estruturas auxiliares unitárias, então a complexidade de espaço é \( \Theta(1) \).
+
+    \item ESCALONA (\code{escalonaN()})
+
+        \textbf{Tempo:} essa função chama \code{escanolaNUrls()} da classe \code{LinkedQueue} e faz uma verificação. Se a fila não está vazia, são executados dois laços \textit{nestados}. No laço de fora, são realizadas operações de custo constante. No laço de dentro também! A remoção do começo e a impressão só envolvem operações unitárias. A regra que quebra ambos os laços está relacionada a \( n \), parâmetro da função. Desse modo, apesar de o laço interior também ser controlado pelo tamanho da lista, a função \code{escalonaNUrls()} como um todo é \( \Theta(n) \). Naturalmente, se \( n \) é maior que a quantidade de URLs na fila como um todo, a execução é parada ao se atingir o fim da fila.
+        %% TODO: fix?
+
+        \textbf{Espaço:} são criadas diversas estruturas auxiliares de tamanho constante. Portanto, a complexidade de espaço é \( \Theta(1) \).
+
+    \item ESCALONA\_HOST (\code{escalonaHost()})
+
+        \textbf{Tempo:} essa função chama \code{getUrlsFromHost()}, e caso o Host esteja presente, escalona-o. Se o Host estiver ausente, a fila inteira é caminhada, em complexidade \( \Theta(n) \), em que \( n \) é o tamanho da fila, mas há um retorno logo em seguida. Se o Host estiver na fila, o melhor caso é se ele corresponder ao primeiro elemento da fila, e o pior é se ele corresponder ao último. É feita uma verficação do parâmetro \code{int} passado: o escalonamento só ocorre para, no máximo \( C \) elementos, em que \( C \) é o tamanho da lista. Ou seja, se supormos um parâmetro arbitrariamente grande, o laço será executado ainda \( C \) vezes. Desse modo, no pior caso, esse método tem complexidade de tempo \( \Theta(???) \).
+        %% TODO: fix
+
+        \textbf{Espaço:} são criadas algumas estruturas auxiliares unitárias. A complexidade de espaço é \( \Theta(1) \).
+
+    \item VER\_HOST (\code{listUrls()})
+
+        \textbf{Tempo:} essa função chama a função \code{getUrlsFromHost()}, e caso o Host esteja presente, imprime sua lista em ordem. Há também uma verficiação que é \( O(1) \). Se o Host estiver ausente, é preciso caminhar a fila inteira, o que representa uma complexidade \( \Theta(n) \), em que \( n \) é o tamanho da fila. Se o Host estiver na fila, o melhor caso é se ele corresponder ao primeiro elemento da fila, pois assim é realizada apenas uma comparação (analogamente, o pior caso é se for o último). Nesse caso, o método \code{print()} da classe \code{LinkedList} é chamado, percorrendo a lista toda, o que representa uma complexidade \( \Theta(m) \), em que \( m \) é o tamanho da lista. Assim, no geral, no pior caso, o método \code{listUrls()} é \( \Theta(m + n) \), ou seja, sua complexiade de tempo é linear.
+
+        \textbf{Espaço:} são criadas algumas variáveis unitárias, nos métodos chamados. Assim, a complexidade de espaço é \( \Theta(1) \).
+
+    \item LISTA\_HOSTS (\code{listHosts()})
+
+        \textbf{Tempo:} essa função simplesmente chama a função \code{printHosts()} e verifica se a escrita ocorreu normalmente. A função \code{printHosts()} realiza operações constantes e, por sua vez, chama outra função, \code{printHost()}, que realiza uma única operação constante. No entanto, \code{printHosts()} possui um laço que é iterado \( n \) vezes, em que \( n \) é o tamanho da fila. Desse modo, sua complexidade de tempo é \( \Theta(n) \).
+
+        \textbf{Espaço:} no método auxiliar \code{printHosts()} é criada uma variável unitária. Assim, a complexidade de espaço de \code{listHosts()} é \( \Theta(1) \).
+
+    \item LIMPA\_HOST (\code{clearHost()})
+
+        \textbf{Tempo:} essa função chama a função \code{getUrlsFromHost()}, e caso o Host esteja presente, limpa-o. Aqui há vários cenários a serem considerados. Primeiro que se o Host não estiver presente, ele não é limpo. Mas para se deduzir que o Host está ausente, deve-se caminhar a fila inteira, o que tem complexidade \( \Theta(n) \), em que \( n \) é o tamanho da fila. Por outro lado, se o Host estiver na fila, o melhor caso é se ele for o primeiro elemento, então só é realizada uma comparação. No entanto, o método \code{clear()} é chamado, que tem complexidade \( \Theta(m) \), em que \( m \) é o tamanho da lista. Portanto, nesse caso, a complexidade é também \( \Theta(m) \). O pior caso é a busca pelo último item da fila, que vai ter complexidade \( \Theta(m + n) \) (considerando o método \code{clear()}), que é ainda linear. 
+
+        \textbf{Espaço:} ao longo da execução são criadas algumas estruturas auxiliares de tamanho unitário, então esse método tem complexidade de espaço \( \Theta(1) \).
+
+    \item LIMPA\_TUDO (\code{clearAll()})
+
+        \textbf{Tempo:} essa função chama a função \code{clear()} da \code{LinkedQueue}. Cada um dos \( n \) sites é deletado, mas cada lista de \( m_i \) URLs também é. Certamente existe uma lista com \( M \) elementos tal que \( M \geq m_i \forall i \mid 1 \leq i \leq n \). No pior do casos, assume-se que todas as listas tem \( M \) elementos a serem deletados. Assim, para cada \code{Site} da fila são feitas \( M + 1 \) exclusões, o que resulta em uma complexidade de tempo quadrática \( \Theta(n(M+1)) \).
+
+        \textbf{Espaço:} como nos casos anteriores, é criada uma variável auxiliar unitária, então esse método tem complexidade de espaço \( \Theta(1) \).
+
+\end{itemize}
 
 \section{Estratégias de Robustez}
 
@@ -104,7 +164,7 @@ Nessa classe só existe um tratamento possível, que não foi implementado. Em p
 
 \subsection{LinkedQueue}
 
-Na fila, assim como na lista, é preciso sempre verificar se a alocação dinâmica ocorreu adequadamente (no construtor, no método \code{line()}). Além disso, a função \code{getUrlsFromHost()} pressupõe que o Host está na fila: sempre que esse método é chamado, o método \code{isHostInQueue()} é chamado antes, para verificar essa condição. Caso sejam feitas alterações a posteriori que por ventura quebrem essa condição, o \code{geteUrlsFromHost()} \textit{joga} uma exceção. Por fim, o método \code{escalonaNUrls()} também exige certo tratamento: se a lista está vazia, não há como escalonar \( n \) URLs, mas aqui a abordagem foi de tolerância à falhas. Também é preciso checar se o final foi atingido sem atingir as \( n \) URLs, seguindo a mesma abordagem. 
+Na fila, assim como na lista, é preciso sempre verificar se a alocação dinâmica ocorreu adequadamente (no construtor, no método \code{line()}). Ademais, o método \code{escalonaNUrls()} também exige certo tratamento: se a lista está vazia, não há como escalonar \( n \) URLs, mas aqui a abordagem foi de tolerância à falhas. Também é preciso checar se o final foi atingido sem atingir as \( n \) URLs, seguindo a mesma abordagem. 
 
 \subsection{Escalonador}
 
@@ -120,6 +180,20 @@ No programa principal existem dois tratamentos: é exigido que o usuário passe 
 
 \section{Conclusões}
 
+Neste trabalho foi implementado um programa que é um componente de uma máquina de busca: um escalonador de URLs, usando a estratégia depth-first, fazendo uso de filas e listas alocadas dinamicamente e contando com leitura e escrita de arquivos.
+
+\subsection{Aprendizado Pessoal}
+
+\textit{Essa seção está escrita em primeira pessoa intencionalmente.}
+
+Implementei, ainda que com grande ajuda, uma fila e uma lista encadeada. Como já tinha implementado uma pilha por causa de um dos exercícios das aulas, fico à mercê de implementar uma àrvore para completar as estruturas de dados básicas. Mas imagino que essas são cenas do próximo capítulo. Ainda sobre a implementação, uma coisa que pensei posteriormente é que talvez fosse mais interessante fazer uma implementação abstrata dessas classes e herdar, especificando as operações. Por exemplo, fazer uma lista encadeada genérica e criar uma classe lista encadeada de URLs, implementando as operações específicas de URLs. Isso seria muito interessante no sentido de que eu teria à minha disposição implementações prontas pra quando precisassse. Inclusive, acho que em algum momento, tentei fazer isso, mas não foi muito pra frente.
+
+Dessa vez, mal tive problemas com o \LaTeX, e até o momento em que estou escrevendo isso, não mexi com testes de unidade. Ou seja, meu ganho ``tangente'' não foi tão alto dessa vez.
+
+Fazer as análises de complexidade foi mais uma vez bem trabalhoso. Fiquei meio chateado de ter \textit{comido uma mosca} no TP 0, mas a expectaviva é que nesse devo ter comido \textit{mais}. Mas acho que estou começando a ganhar familiaridade com o assunto, inclusive pulei umas coisas mais \textit{low-level} de propósito.
+
+%% TODO: análise experimental
+
 \section{Bibliografia}
 
 \begin{enumerate}
@@ -127,7 +201,7 @@ No programa principal existem dois tratamentos: é exigido que o usuário passe 
     \item CHAIMOWICZ, Luiz. \textbf{Listas Encadeadas}. [S. l.], 24 ago. 2020. Disponível em: \url{https://www.youtube.com/watch?v=l4gEM46FznI}. Acesso em 6 dec 2021.
 
     \item CHAIMOWICZ, Luiz. \textbf{Filas - Implementação com Apontadores}. [S. l.], 24 ago. 2020. Disponível em: \url{https://www.youtube.com/watch?v=scNtNVD6HRE}. Acesso em 6 dec 2021.
-        
+
 \end{enumerate}
 
 
