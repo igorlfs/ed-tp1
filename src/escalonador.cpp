@@ -55,6 +55,7 @@ Escalonador::~Escalonador() {
 // @param u (URL)
 void Escalonador::insertUrl(const URL &u) {
     if (u.getProtocol() != PROTOCOL) return;
+    if (u.getHost().empty()) return;
 
     string urlWithFrag = u.getUrl();
     if (isUrlForbidden(urlWithFrag)) return;
