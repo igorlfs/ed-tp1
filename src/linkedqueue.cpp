@@ -89,22 +89,12 @@ void LinkedQueue::clear() {
 void LinkedQueue::escalonaNUrls(const int &n, std::ostream &out) const {
     if (empty()) return;
 
-    Cell<Site> *p = this->front->next;
-    int m = 0;
+    LinkedList *L;
 
-    while (m < n) {
-
-        LinkedList *q = p->item.getUrls();
-        int sizeL = q->getSize();
-
-        for (int i = 0; i < sizeL; ++i, ++m) {
-            q->removeBeg().print(out);
-            if (m == n) return;
-        }
-
-        if (p->next == nullptr) return;
-
-        p = p->next;
+    for (int m = 0; m < n; ++m) {
+        L = getBestHost();
+        if (L->getSize() == 0) return;
+        L->escalona(out, 1);
     }
 }
 
