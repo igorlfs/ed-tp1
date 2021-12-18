@@ -29,10 +29,12 @@ void LinkedQueue::line(const URL &u) {
 // @brief escalona toda a fila, Site por Site
 // @param out (saída do escalonamento)
 void LinkedQueue::escalonaTudo(std::ostream &out) {
-    Cell<Site> *p = this->front->next;
-
-    for (; p != nullptr; p = p->next)
-        p->item.getUrls()->escalonaTudo(out);
+    LinkedList *L;
+    while (1) {
+        L = getBestHost();
+        if (L->getSize() == 0) return;
+        L->escalona(out, 1);
+    }
 }
 
 // @brief checa se um dado host está na fila
@@ -48,6 +50,25 @@ LinkedList *LinkedQueue::getUrlsFromHost(const Host &h) const {
     }
 
     return nullptr;
+}
+
+// @brief pega o melhor host com base no tamanho da lista
+LinkedList *LinkedQueue::getBestHost() const {
+    Cell<Site> *p = this->front->next;
+
+    LinkedList *L = p->item.getUrls();
+    int maxSize = L->getSize();
+
+    while (p != nullptr) {
+        int size = p->item.getUrls()->getSize();
+        if (size > maxSize) {
+            L = p->item.getUrls();
+            maxSize = size;
+        }
+        p = p->next;
+    }
+
+    return L;
 }
 
 // @brief desaloca células da fila, faz cauda=cabeça, coloca tamanho 0

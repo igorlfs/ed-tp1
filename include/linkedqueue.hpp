@@ -12,6 +12,7 @@ class LinkedQueue : public LinearList {
 
     // Getters
     LinkedList *getUrlsFromHost(const Host &h) const;
+    LinkedList *getBestHost() const;
 
     // Modificadores
     void line(const URL &u);
