@@ -86,21 +86,30 @@ void LinkedQueue::escalonaNUrls(const int &n, std::ostream &out) const {
     if (empty()) return;
 
     Cell<Site> *p = this->front->next;
-    int m = 0;
+    LinkedList *L;
 
-    while (m < n) {
+    for (int m = 0; m < n;) {
 
-        LinkedList *q = p->item.getUrls();
-        int sizeL = q->getSize();
+        L = p->item.getUrls();
+        if (!L->empty()) {
+            L->escalona(out, 1);
+            m++;
+        } else
+            (p->item.setCleared());
 
-        for (int i = 0; i < sizeL; ++i, ++m) {
-            q->removeBeg().print(out);
-            if (m == n) return;
-        }
-
-        if (p->next == nullptr) return;
-
-        p = p->next;
+        // Quando chegar ao final, confira se todos estão limpos
+        // Preciso fazer isso mesmo aqui pois
+        // n pode ser maior que o total da lista
+        if (p->next == nullptr) {
+            for (p = this->front->next; p != nullptr; p = p->next) {
+                if (!p->item.getCleared())
+                    break;
+                else if (p->next == nullptr)
+                    return;
+            }
+            p = this->front->next;
+        } else
+            p = p->next;
     }
 }
 
