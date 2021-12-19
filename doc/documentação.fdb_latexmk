@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1639952967 "documentação.tex" "documentação.pdf" "documentação" 1639952968
+["pdflatex"] 1639953796 "documentação.tex" "documentação.pdf" "documentação" 1639953798
   "/opt/texlive/2021/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc" 1254269338 2375 baa924870cfb487815765f9094cf3728 ""
   "/opt/texlive/2021/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc" 1202520719 2405 5dcf2c1b967ee25cc46c58cd52244aed ""
   "/opt/texlive/2021/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc" 1202520719 2840 216e6e45ad352e2456e1149f28885bee ""
@@ -122,12 +122,12 @@
   "/opt/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1636316255 79165 1bde43052840c0a7b1e8f07ae750b81f ""
   "/opt/texlive/2021/texmf-var/web2c/pdftex/pdflatex.fmt" 1635285448 2138399 2339edde1e79763bd12868364d1f515b ""
   "/opt/texlive/2021/texmf.cnf" 1626041777 455 5b996dcaa0eb4ef14a83b026bc0a008c ""
-  "documentação.aux" 1639952968 3453 812bd64bb0768db52c7f85a8b3a6b42d "pdflatex"
-  "documentação.out" 1639952968 3000 1a44d7f38a394f43d8d8601a4cad42ec "pdflatex"
-  "documentação.tex" 1639952966 30233 179e93947358a7807684f2e91c3318ca ""
+  "documentação.aux" 1639953798 3453 cc199367b39a4c1582ec9676bba2ee89 "pdflatex"
+  "documentação.out" 1639953798 3000 1a44d7f38a394f43d8d8601a4cad42ec "pdflatex"
+  "documentação.tex" 1639953795 30753 e65c4f41fbb5655705671ef77214930e ""
   "img//comp-perf.png" 1639869520 34126 1e35dd2feb636c3f4209cacf1ec59f82 ""
   (generated)
-  "documentação.out"
-  "documentação.log"
   "documentação.pdf"
   "documentação.aux"
+  "documentação.out"
+  "documentação.log"

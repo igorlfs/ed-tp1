@@ -48,6 +48,8 @@ O programa foi desenvolvido em C++ e compilado utilizando o g++, do GNU Compiler
 
 A formatação do código fonte (\textbf{incluindo a indentação}): \textbf{foi feita usando a ferramenta clang-format}. Foi usado um arquivo customizado para isso, que se encontra na raiz do projeto, com o nome de \textit{.clang-format}. É um arquivo bem curto, baseado em preferências pessoais do autor, mas que \textbf{garante a consistência da formatação do projeto}.
 
+Ambos os desafios foram implementados. Foi usado o \code{git} para controle de versão, então, para cada desafio optou-se por criar uma \textit{branch}, modificando as funções já implementadas na estratégia padrão (além da criação de métodos e membros auxiliares). Assim, as estratégias estão separadas por nome na raiz da pasta de entrega. Para mais detalhes, solicite acesso ao \textit{repo} no Github.
+
 \subsection{Organização do código}
 
 O projeto atende à especificação no que diz respeito à organização do código de forma geral (cabeçalhos em \code{./include}, etc). Em particular, a única divergência é que os \emph{headers} usam a extensão \code{.hpp} e não \code{.h} (idiossincrasia do editor de texto).
@@ -208,7 +210,7 @@ Neste trabalho foi implementado um programa que é um componente de uma máquina
 
 Implementei, ainda que com grande ajuda, uma fila e uma lista encadeada. Como já tinha implementado uma pilha por causa de um dos exercícios das aulas, fico à mercê de implementar uma àrvore para completar as estruturas de dados básicas. Mas imagino que essas são cenas do próximo capítulo. Ainda sobre a implementação, uma coisa que pensei posteriormente é que talvez fosse mais interessante fazer uma implementação abstrata dessas classes e herdar, especificando as operações. Por exemplo, fazer uma lista encadeada genérica e criar uma classe lista encadeada de URLs, implementando as operações específicas de URLs. Isso seria muito interessante no sentido de que eu teria à minha disposição implementações prontas pra quando precisassse. Inclusive, acho que em algum momento, tentei fazer isso, mas não foi muito pra frente.
 
-Dessa vez, mal tive problemas com o \LaTeX, e até o momento em que estou escrevendo isso, não mexi com testes de unidade. Ou seja, meu ganho ``tangente'' não foi tão alto dessa vez.
+Dessa vez, mal tive problemas com o \LaTeX, e até o momento em que estou escrevendo isso, não mexi com testes de unidade. Usei o \code{git} e usei \textit{branches} para gerenciar os desafios, mas isso não foi nada demais. Ou seja, meu ganho ``tangente'' não foi tão alto dessa vez.
 
 Fazer as análises de complexidade foi mais uma vez bem trabalhoso. Fiquei meio chateado de ter \textit{comido uma mosca} no TP 0, mas a expectativa é que nesse devo ter comido \textit{mais}. Mas acho que estou começando a ganhar familiaridade com o assunto, inclusive pulei umas coisas mais \textit{low-level} de propósito.
 

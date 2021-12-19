@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021) (preloaded format=pdflatex 2021.10.26)  19 DEC 2021 19:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021) (preloaded format=pdflatex 2021.10.26)  19 DEC 2021 19:43
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -325,21 +325,21 @@ File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 
 {/opt/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 61.
+(Font)              <10> on input line 63.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 61.
+(Font)              <7> on input line 63.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 61.
+(Font)              <5> on input line 63.
  [2] [3]
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 95.
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 97.
  (/opt/texlive/2021/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) [4] [5] [6] [7] [8]
 <./img//comp-perf.png, id=150, 2007.5pt x 1405.25pt>
 File: ./img//comp-perf.png Graphic file (type png)
 <use ./img//comp-perf.png>
-Package pdftex.def Info: ./img//comp-perf.png  used on input line 189.
-(pdftex.def)             Requested size: 312.9803pt x 219.0766pt.
+Package pdftex.def Info: ./img//comp-perf.png  used on input line 191.
+(pdftex.def)             Requested size: 284.52756pt x 199.15665pt.
  [9] [10 <./img//comp-perf.png>] [11] [12] (./documentação.aux)
 Package rerunfilecheck Info: File `documentação.out' has not changed.
 (rerunfilecheck)             Checksum: 1A44D7F38A394F43D8D8601A4CAD42EC;3000.
@@ -353,7 +353,7 @@ Here is how much of TeX's memory you used:
  321 hyphenation exceptions out of 8191
  60i,8n,66p,1340b,464s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/opt/texlive/2021/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/opt/texlive/2021/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/opt/texlive/2021/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/opt/texlive/2021/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/opt/texlive/2021/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}</opt/texlive/2021/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></opt/texlive/2021/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></opt/texlive/2021/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></opt/texlive/2021/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></opt/texlive/2021/texmf-dist/fonts/type1/public/lm/lmr10.pfb></opt/texlive/2021/texmf-dist/fonts/type1/public/lm/lmr12.pfb></opt/texlive/2021/texmf-dist/fonts/type1/public/lm/lmr6.pfb></opt/texlive/2021/texmf-dist/fonts/type1/public/lm/lmr7.pfb></opt/texlive/2021/texmf-dist/fonts/type1/public/lm/lmr8.pfb></opt/texlive/2021/texmf-dist/fonts/type1/public/lm/lmri10.pfb></opt/texlive/2021/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></opt/texlive/2021/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></opt/texlive/2021/texmf-dist/fonts/type1/public/lm/lmtt12.pfb></opt/texlive/2021/texmf-dist/fonts/type1/public/lm/lmtt8.pfb>
-Output written on documentação.pdf (12 pages, 376678 bytes).
+Output written on documentação.pdf (12 pages, 377457 bytes).
 PDF statistics:
  267 PDF objects out of 1000 (max. 8388607)
  217 compressed objects within 3 object streams
