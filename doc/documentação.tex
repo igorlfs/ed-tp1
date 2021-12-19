@@ -8,7 +8,7 @@
 \usepackage[T1]{fontenc}        % Encoding para português 
 \usepackage{lmodern}            % Conserta a fonte para PT
 \usepackage[portuguese]{babel}  % Português
-\usepackage{hyphenat}           % Use hífens corretamente
+\usepackage{hyphenat}           % Use hifens corretamente
 
 \graphicspath{{./img/}}
 
@@ -108,15 +108,13 @@ A seguir, são analisadas as complexidades de tempo e de espaço dos principais 
 
     \item ESCALONA (\code{escalonaN()})
 
-        \textbf{Tempo:} essa função chama \code{escanolaNUrls()} da classe \code{LinkedQueue} e faz uma verificação. Se a fila não está vazia, são executados dois laços \textit{nestados}. No laço de fora, são realizadas operações de custo constante. No laço de dentro também! A remoção do começo e a impressão só envolvem operações unitárias. A regra que quebra ambos os laços está relacionada a \( n \), parâmetro da função. Desse modo, apesar de o laço interior também ser controlado pelo tamanho da lista, a função \code{escalonaNUrls()} como um todo é \( \Theta(n) \). Naturalmente, se \( n \) é maior que a quantidade de URLs na fila como um todo, a execução é parada ao se atingir o fim da fila.
-        %% TODO: fix?
+        \textbf{Tempo:} essa função chama \code{escanolaNUrls()} da classe \code{LinkedQueue} e faz uma verificação. Se a fila não está vazia, são executados dois laços \textit{nestados}. No laço de fora, são realizadas operações de custo constante. No laço de dentro também! A remoção do começo e a impressão só envolvem operações unitárias. A regra que quebra ambos os laços está relacionada a \( n \), parâmetro da função. Desse modo, apesar de o laço interior também ser controlado pelo tamanho da lista de URLs de um dado Site, a função \code{escalonaNUrls()} como um todo não tem complexidade quadrática\footnote{Pelo menos essa é minha hipótese, que \href{https://virtual.ufmg.br/20212/mod/forum/discuss.php?d=32885}{\nolinkurl{postei}} no fórum e na véspera da data de entrega ainda não foi confirmada por algum monitor ou professor.}. De fato, se \( n \) é maior que a quantidade de URLs na fila como um todo, a execução é parada ao se atingir o fim da fila, ou seja, a complexidade de tempo da função é \( \Theta(k) \), em que \( k \) é a quantidade de URLs na fila.
 
         \textbf{Espaço:} são criadas diversas estruturas auxiliares de tamanho constante. Portanto, a complexidade de espaço é \( \Theta(1) \).
 
     \item ESCALONA\_HOST (\code{escalonaHost()})
 
-        \textbf{Tempo:} essa função chama \code{getUrlsFromHost()}, e caso o Host esteja presente, escalona-o. Se o Host estiver ausente, a fila inteira é caminhada, em complexidade \( \Theta(n) \), em que \( n \) é o tamanho da fila, mas há um retorno logo em seguida. Se o Host estiver na fila, o melhor caso é se ele corresponder ao primeiro elemento da fila, e o pior é se ele corresponder ao último. É feita uma verficação do parâmetro \code{int} passado: o escalonamento só ocorre para, no máximo \( C \) elementos, em que \( C \) é o tamanho da lista. Ou seja, se supormos um parâmetro arbitrariamente grande, o laço será executado ainda \( C \) vezes. Desse modo, no pior caso, esse método tem complexidade de tempo \( \Theta(???) \).
-        %% TODO: fix
+        \textbf{Tempo:} essa função chama \code{getUrlsFromHost()}, e caso o Host esteja presente, escalona-o. Se o Host estiver ausente, a fila inteira é caminhada, em complexidade \( \Theta(n) \), em que \( n \) é o tamanho da fila, mas há um retorno logo em seguida. Se o Host estiver na fila, o melhor caso é se ele corresponder ao primeiro elemento da fila, e o pior é se ele corresponder ao último. É feita uma verficação do parâmetro \code{int} passado: o escalonamento só ocorre para, no máximo \( k \) elementos, em que \( k \) é o tamanho da lista. Ou seja, se supormos um parâmetro arbitrariamente grande, o laço será executado ainda \( k \) vezes. Desse modo, no pior caso, considerando a busca inicial, esse método tem complexidade de tempo \( \Theta(n+k) \).
 
         \textbf{Espaço:} são criadas algumas estruturas auxiliares unitárias. A complexidade de espaço é \( \Theta(1) \).
 
@@ -188,11 +186,11 @@ Nesta subseção é avaliado o impacto da variação de parâmetros para o progr
 Foram feitas duas análises do impacto na performance para diferentes parâmetros de variação da quantidade de URLs: variando o total de servidores (e mantendo o número de URLs por Host constante, igual a 3) e variando o número de URLs por Host (e mantendo o total de servidores constante):
 
 \begin{figure} [H]
-    \includegraphics[width=11cm]{comp-perf.png} 
+    \includegraphics[width=10cm]{comp-perf.png} 
     \centering
 \end{figure}
 
-Mais especificamente, os parâmetros para o gerador de carga para o teste com servidores foram: \code{-s <quantidade> -u 3 -v 0 -p 5 -q 0.68}, em que a quantidade é a variável. A variança das URLs foi nula para se obter um número exato de URLs, e os parâmetros para a profunidade foram completamente arbitrários. Já no caso dos parâmetros para o teste variando as URLs por Host: \code{-s 30 -u <quantidade> -v 0 -p 5 -q 0.68}, em que a quantidade é a variável e as mesmas justificativas para os outros parâmetros se aplicam.
+Mais especificamente, os parâmetros para o gerador de carga para o teste com servidores foram: \code{-s <quantidade> -u 3 -v 0 -p 5 -q 0.68}, em que a quantidade é a variável. A variança das URLs foi nula para se obter um número exato de URLs, e os parâmetros para a profundidade foram completamente arbitrários. Já no caso dos parâmetros para o teste variando as URLs por Host: \code{-s 30 -u <quantidade> -v 0 -p 5 -q 0.68}, em que a quantidade é a variável e as mesmas justificativas para os outros parâmetros se aplicam.
 
 Os resultados obtidos não contradizem a análise de complexidade e estão dentro do esperado. Outro parâmetro analisado foi a \textit{profundidade} das URLs, mas não foi obtida diferença significativa para essa mudança (como esperado).
 
@@ -212,7 +210,7 @@ Implementei, ainda que com grande ajuda, uma fila e uma lista encadeada. Como j�
 
 Dessa vez, mal tive problemas com o \LaTeX, e até o momento em que estou escrevendo isso, não mexi com testes de unidade. Ou seja, meu ganho ``tangente'' não foi tão alto dessa vez.
 
-Fazer as análises de complexidade foi mais uma vez bem trabalhoso. Fiquei meio chateado de ter \textit{comido uma mosca} no TP 0, mas a expectaviva é que nesse devo ter comido \textit{mais}. Mas acho que estou começando a ganhar familiaridade com o assunto, inclusive pulei umas coisas mais \textit{low-level} de propósito.
+Fazer as análises de complexidade foi mais uma vez bem trabalhoso. Fiquei meio chateado de ter \textit{comido uma mosca} no TP 0, mas a expectativa é que nesse devo ter comido \textit{mais}. Mas acho que estou começando a ganhar familiaridade com o assunto, inclusive pulei umas coisas mais \textit{low-level} de propósito.
 
 %% TODO: análise experimental
 
