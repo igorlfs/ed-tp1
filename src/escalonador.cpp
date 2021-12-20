@@ -98,6 +98,8 @@ void Escalonador::escalonaTudo() {
 // Se o Host estiver ausente, faz nada
 void Escalonador::escalonaHost(const Host &h, int &n) {
     LinkedList *p = this->siteQueue.getUrlsFromHost(h);
+
+    avisoAssert(p, "Host " << h << " está ausente!\nOperação não executada.");
     if (!p) return;
 
     if (n > p->getSize()) n = p->getSize();
@@ -111,6 +113,8 @@ void Escalonador::escalonaHost(const Host &h, int &n) {
 // Se o Host estiver ausente, faz nada
 void Escalonador::listUrls(const Host &h) {
     LinkedList *p = this->siteQueue.getUrlsFromHost(h);
+
+    avisoAssert(p, "Host " << h << " está ausente!\nOperação não executada.");
     if (!p) return;
 
     p->print(this->outputFile);
@@ -123,7 +127,10 @@ void Escalonador::listUrls(const Host &h) {
 // Se o Host estiver ausente, faz nada
 void Escalonador::clearHost(const Host &h) {
     LinkedList *p = this->siteQueue.getUrlsFromHost(h);
+
+    avisoAssert(p, "Host " << h << " está ausente!\nOperação não executada.");
     if (!p) return;
+
     p->clear();
 }
 
