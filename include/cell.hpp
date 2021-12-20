@@ -3,11 +3,15 @@
 template <typename T> class Cell {
   public:
     // Construtores
-    Cell() { this->next = nullptr; }
+    Cell(const int &id) {
+        this->next = nullptr;
+        this->id = id;
+    }
 
   private:
     T item;
     Cell *next;
+    int id;
 
     friend class LinkedList;
     friend class LinkedQueue;

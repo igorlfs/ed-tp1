@@ -3,7 +3,7 @@
 #include "msgassert.hpp"
 
 memlog ml;
-bool regmem = 0;
+bool regmem = 1;
 
 static const string OUT = "-out";
 static const string LOG = "-log";

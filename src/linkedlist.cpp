@@ -1,9 +1,13 @@
 #include "linkedlist.hpp"
+#include "memlog.hpp"
 #include "msgassert.hpp"
+
+int urlID = 1;
 
 // @brief Constrói lista inicializando cabeça e cauda
 LinkedList::LinkedList() : LinearList() {
-    this->head = new (std::nothrow) Cell<URL>;
+    this->head = new (std::nothrow) Cell<URL>(urlID);
+    urlID++;
     erroAssert(this->head, "Falha ao alocar dinamicamente a célula.");
     this->tail = this->head;
 }
@@ -33,7 +37,8 @@ Cell<URL> *LinkedList::setPos(const int &pos,
 // @brief insere uma nova célula no começo da lista
 // @param u, URL a ser inserida
 void LinkedList::insertBeg(const URL &u) {
-    Cell<URL> *newCell = new (std::nothrow) Cell<URL>;
+    Cell<URL> *newCell = new (std::nothrow) Cell<URL>(urlID);
+    urlID++;
     erroAssert(newCell, "Falha ao alocar dinamicamente a célula.");
 
     newCell->item = u;
@@ -46,7 +51,8 @@ void LinkedList::insertBeg(const URL &u) {
 // @brief insere uma nova célula numa dada posição da lista
 // @param u, URL a ser inserida, pos, posição de inserção
 void LinkedList::insertPos(const URL &u, const int &pos) {
-    Cell<URL> *newCell = new (std::nothrow) Cell<URL>;
+    Cell<URL> *newCell = new (std::nothrow) Cell<URL>(urlID);
+    urlID++;
     erroAssert(newCell, "Falha ao alocar dinamicamente a célula.");
 
     Cell<URL> *p = setPos(pos, true);
@@ -65,6 +71,7 @@ URL LinkedList::removeBeg() {
     erroAssert(!empty(), "Falha ao remover item da lista: lista vazia");
 
     Cell<URL> *p = this->head->next;
+    ESCREVEMEMLOG((long int)p, sizeof(Cell<URL>), p->id);
     this->head->next = p->next;
     this->size--;
 

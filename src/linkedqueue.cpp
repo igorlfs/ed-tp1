@@ -1,9 +1,12 @@
 #include "linkedqueue.hpp"
+#include "memlog.hpp"
 #include "msgassert.hpp"
+
+int siteID = 0;
 
 // @brief constrói fila inicializando cabeça e cauda
 LinkedQueue::LinkedQueue() : LinearList() {
-    this->front = new (std::nothrow) Cell<Site>;
+    this->front = new (std::nothrow) Cell<Site>(siteID);
     erroAssert(this->front, "Falha ao alocar dinamicamente a célula."); 
     this->rear = this->front;
 }
@@ -17,7 +20,7 @@ LinkedQueue::~LinkedQueue() {
 // @brief enfileira Site na fila
 // @param u (URL do Site)
 void LinkedQueue::line(const URL &u) {
-    Cell<Site> *newCell = new (std::nothrow) Cell<Site>;
+    Cell<Site> *newCell = new (std::nothrow) Cell<Site>(siteID);
     erroAssert(newCell, "Falha ao alocar dinamicamente a célula."); 
 
     newCell->item.setHost(u);
