@@ -198,7 +198,11 @@ Os resultados obtidos não contradizem a análise de complexidade e estão dentr
 
 \subsection{Eficiência de Acesso à Memória}
 
-% TODO
+\textit{Eu não consegui realizar essa análise.} 
+
+Não por não tentar, mas eu realmente não consegui. Registrei parte dos meus esforços numa \textit{branch} no meu Github (cujo acesso pode ser solicitado). A minha proposta inicial era analisar somente a operação de escalonar tudo (e claro, as operações relacionadas, como a inserção e afins), registando o \textit{log} pelas células de URLs. E em algum momento até fiz algo convincente nesse sentido, o meu registro funcionava como esperado. No entanto, ao rodar o \code{analisamem}, o programa recebia um erro de segmentação, que eu não consegui depurar.
+
+Tentei reduzir as operações de registro para evitar o \textit{segfault}, e é isso que a \textit{branch} contém. Apesar de ter conseguido \textit{esquivar} do segfault, o \code{analisamem} continuou não funcionando (parece que ele entra em um loop infinito, fazendo alto consumo de processamento).
 
 \section{Conclusões}
 
@@ -206,15 +210,15 @@ Neste trabalho foi implementado um programa que é um componente de uma máquina
 
 \subsection{Aprendizado Pessoal}
 
-\textit{Essa seção está escrita em primeira pessoa intencionalmente.}
+Implementei, ainda que com grande ajuda, uma fila e uma lista encadeada. Como já tinha implementado uma pilha por causa de um dos exercícios das aulas, fico à mercê de implementar uma àrvore para completar as estruturas de dados básicas. Mas imagino que essas são cenas do próximo capítulo. Ainda sobre a implementação, uma coisa que pensei posteriormente é que talvez fosse mais interessante fazer uma implementação abstrata dessas classes e herdar, especificando as operações. 
 
-Implementei, ainda que com grande ajuda, uma fila e uma lista encadeada. Como já tinha implementado uma pilha por causa de um dos exercícios das aulas, fico à mercê de implementar uma àrvore para completar as estruturas de dados básicas. Mas imagino que essas são cenas do próximo capítulo. Ainda sobre a implementação, uma coisa que pensei posteriormente é que talvez fosse mais interessante fazer uma implementação abstrata dessas classes e herdar, especificando as operações. Por exemplo, fazer uma lista encadeada genérica e criar uma classe lista encadeada de URLs, implementando as operações específicas de URLs. Isso seria muito interessante no sentido de que eu teria à minha disposição implementações prontas pra quando precisassse. Inclusive, acho que em algum momento, tentei fazer isso, mas não foi muito pra frente.
+Por exemplo, fazer uma lista encadeada genérica e criar uma classe lista encadeada de URLs, implementando as operações específicas de URLs. Isso seria muito interessante no sentido de que eu teria à minha disposição implementações prontas pra quando precisassse. Inclusive, acho que em algum momento, tentei fazer algo parecido, com templates, mas não foi muito pra frente. No geral, tive alguns problemas na hora de implementar essas estruturas, por causa da alocação dinâmica, mas no final evitei as condições que causavam erros.
 
-Dessa vez, mal tive problemas com o \LaTeX, e até o momento em que estou escrevendo isso, não mexi com testes de unidade. Usei o \code{git} e usei \textit{branches} para gerenciar os desafios, mas isso não foi nada demais. Ou seja, meu ganho ``tangente'' não foi tão alto dessa vez.
+Dessa vez, mal tive problemas com o \LaTeX, e até o momento em que estou escrevendo isso, não mexi com testes de unidade (mas usei um \textit{script} para rodar os testes disponibilizados). Usei \textit{branches} do \code{git} para gerenciar os desafios, mas isso não foi nada demais. Ou seja, meu ganho ``tangente'' não foi tão alto dessa vez.
 
-Fazer as análises de complexidade foi mais uma vez bem trabalhoso. Fiquei meio chateado de ter \textit{comido uma mosca} no TP 0, mas a expectativa é que nesse devo ter comido \textit{mais}. Mas acho que estou começando a ganhar familiaridade com o assunto, inclusive pulei umas coisas mais \textit{low-level} de propósito.
+Fazer as análises de complexidade foi mais uma vez bem trabalhoso. Fiquei meio chateado de ter \textit{comido uma mosca} no TP 0, mas a expectativa é que nesse devo ter comido \textit{mais}. Mas acho que estou começando a ganhar familiaridade com o assunto.
 
-%% TODO: análise experimental
+Eu estou desapontado por não ter conseguido fazer as análises de eficiência de acessoa à memória. Por outro lado, também acho que foi algo subespecificado (acho que faltou certo esforço em explicar isso). No mais, acredito que foi um bom trabalho, que teve suas dificuldades e aprendizados.
 
 \section{Bibliografia}
 
@@ -235,19 +239,15 @@ Fazer as análises de complexidade foi mais uma vez bem trabalhoso. Fiquei meio 
 Você pode compilar o programa da seguinte maneira:
 
 \begin{enumerate}
-    \item Abra um terminal;
     \item Utilize o comando \code{cd} para mudar de diretório para a localização da raiz do projeto;
     \item Utilize o comando \code{make}. 
 \end{enumerate}
-
-Pronto! O programa principal foi compilado. 
 
 \subsection*{Execução}
 
 Você pode rodar o programa da seguinte maneira:
 
 \begin{enumerate}
-    \item Abra um terminal;
     \item Utilize o comando \code{cd} para mudar de diretório para a localização da raiz do projeto;
     \item Utilize o comando \code{./bin/binary <nome-arquivo-entrada>}. Esse parâmetro é obrigatório!
 \end{enumerate}
