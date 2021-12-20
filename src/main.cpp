@@ -3,7 +3,6 @@
 #include "msgassert.hpp"
 
 memlog ml;
-bool regmem = 0;
 
 static const string OUT = "-out";
 static const string LOG = "-log";
@@ -33,7 +32,6 @@ int main(int argc, char *argv[]) {
 
     string logName = append(fileName, LOG);
     ml.iniciaMemLog(logName);
-    regmem ? ml.ativaMemLog() : ml.desativaMemLog();
 
     string outName = append(fileName, OUT);
     Escalonador E(outName);
